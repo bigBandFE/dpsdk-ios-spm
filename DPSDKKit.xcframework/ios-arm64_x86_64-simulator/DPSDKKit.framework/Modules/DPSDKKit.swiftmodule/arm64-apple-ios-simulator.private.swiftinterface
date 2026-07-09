@@ -18,430 +18,6 @@ import WebKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
-public class DPSDKHTTPCacheManager {
-  public static let shared: DPSDKKit.DPSDKHTTPCacheManager
-  public enum CachePolicy {
-    case useProtocolCachePolicy
-    case reloadIgnoringLocalCache
-    case returnCacheDataElseLoad
-    case returnCacheDataDontLoad
-    public static func == (a: DPSDKKit.DPSDKHTTPCacheManager.CachePolicy, b: DPSDKKit.DPSDKHTTPCacheManager.CachePolicy) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
-  }
-  @available(iOS 13.0, *)
-  public class CacheConfiguration {
-    public var memoryCapacity: Swift.Int
-    public var diskCapacity: Swift.Int
-    public var cacheExpiration: Swift.Double
-    public var enableSmartCache: Swift.Bool
-    public var whitelistDomains: [Swift.String]
-    public var blacklistDomains: [Swift.String]
-    public init()
-    @objc deinit
-  }
-  public func configure(_ config: DPSDKKit.DPSDKHTTPCacheManager.CacheConfiguration)
-  public func prefetchURLs(_ urls: [Swift.String], priority: DPSDKKit.PrefetchPriority = .normal)
-  public func prefetchURL(_ urlString: Swift.String, priority: DPSDKKit.PrefetchPriority = .normal)
-  public func clearCache(completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public func getCacheSize(completion: @escaping (Swift.Int64) -> Swift.Void)
-  public func getStatistics() -> [Swift.String : Any]
-  public func configureWebView(_ webView: WebKit.WKWebView)
-  @objc deinit
-}
-public enum PrefetchPriority {
-  case high
-  case normal
-  case low
-  public static func == (a: DPSDKKit.PrefetchPriority, b: DPSDKKit.PrefetchPriority) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
-    get
-  }
-}
-@_hasMissingDesignatedInitializers public class DPSDKPrefetchManager {
-  public static let shared: DPSDKKit.DPSDKPrefetchManager
-  public func prefetchFromConfigs(_ configs: [Swift.String : Any], completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public func prefetchDPSDK(appId: Swift.String, config: [Swift.String : Any], completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public func isPrefetchComplete(for appId: Swift.String) -> Swift.Bool
-  public func cleanup()
-  public func processDPSDKConfigs(from configs: [Swift.String : Any])
-  @objc deinit
-}
-extension DPSDKKit.DPSDKPrefetchManager {
-  public func prefetchCurrentClientConfig(completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public func ensurePrefetchForApp(_ appId: Swift.String, completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public func debugPrefetchURL(_ url: Swift.String, appId: Swift.String, completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public func getDebugInfo() -> [Swift.String : Any]
-  public func getHomepageURL(for appId: Swift.String) -> Swift.String?
-  @discardableResult
-  public func loadCachedTemplate(for appId: Swift.String, in webView: Any, completion: @escaping (Swift.Bool) -> Swift.Void = { _ in }) -> Swift.Bool
-  public func hasCachedTemplate(for appId: Swift.String) -> Swift.Bool
-}
-@_hasMissingDesignatedInitializers public class DPSDKTemplateManager {
-  public static let shared: DPSDKKit.DPSDKTemplateManager
-  public func downloadTemplates(prefetchUrls: [Swift.String], clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
-  public func getCachedTemplatePath(clientId: Swift.String, appId: Swift.String, version: Swift.String) -> Foundation.URL?
-  public func hasCachedTemplate(clientId: Swift.String, appId: Swift.String, version: Swift.String) -> Swift.Bool
-  public func cleanupExpiredTemplates(olderThan: Foundation.Date = Date().addingTimeInterval(-7 * 24 * 60 * 60))
-  @objc deinit
-}
-extension DPSDKKit.DPSDKTemplateManager {
-  public func getDebugInfo() -> [Swift.String : Any]
-  public func redownloadTemplates(prefetchUrls: [Swift.String], clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
-  public func validateTemplateUpdate(prefetchUrls: [Swift.String], clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Bool, Swift.Bool) -> Swift.Void)
-  public func getTemplateInfo(clientId: Swift.String, appId: Swift.String, version: Swift.String) -> [Swift.String : Any]?
-}
-public class DPSDKConfig {
-  final public let clientId: Swift.String
-  public var theme: DPSDKKit.Theme
-  public var staging: Swift.Bool
-  public var sandboxMode: Swift.Bool
-  public var permissionsPage: Swift.Bool
-  public var showClearCache: Swift.Bool
-  public var showAboutPage: Swift.Bool
-  public var language: Swift.String
-  public var sparkappSettingsExpirationTime: Swift.Int
-  public var userId: Swift.String? {
-    get
-  }
-  public var enablePerformanceMonitoring: Swift.Bool
-  public var enableLogging: Swift.Bool {
-    get
-    set
-  }
-  public var cacheStrategy: DPSDKKit.CacheStrategy
-  public var enableAdvancedCache: Swift.Bool
-  public var webViewPoolSize: Swift.Int
-  public var webViewPreWarmCount: Swift.Int
-  public var httpCacheMemorySize: Swift.Int
-  public var httpCacheDiskSize: Swift.Int
-  public var enableBehaviorPrediction: Swift.Bool
-  public var enableBatteryOptimization: Swift.Bool
-  public var enableNetworkAwareness: Swift.Bool
-  public var navigationTitleFontName: Swift.String?
-  public var offlinePackFileIndexUrl: Swift.String?
-  public var navigationTitleFontSize: CoreFoundation.CGFloat
-  public var navigationTitleFontWeight: UIKit.UIFont.Weight
-  public init(clientId: Swift.String)
-  public init(clientId: Swift.String, theme: DPSDKKit.Theme)
-  public init(clientId: Swift.String, theme: DPSDKKit.Theme = .system, cacheStrategy: DPSDKKit.CacheStrategy = .withHomePage)
-  public func setUserIdentifier(_ id: Swift.String)
-  public func getIntegrityValidationResult() -> Swift.Bool
-  public func getIntegrityValidationDetails() -> [Swift.String : Any]
-  @objc deinit
-}
-public class DPAppConfiguration {
-  public var saveState: Swift.Bool
-  public var urlSuffix: Swift.String
-  public var pageAnimation: DPSDKKit.PageAnimation
-  public var hideNavigationBar: Swift.Bool {
-    get
-    set
-  }
-  public var extendToStatusBar: Swift.Bool {
-    get
-    set
-  }
-  public var showBackButton: Swift.Bool {
-    get
-    set
-  }
-  public var showCloseButton: Swift.Bool {
-    get
-    set
-  }
-  public var closePrevPage: Swift.Bool {
-    get
-    set
-  }
-  public var closeAllPrevPages: Swift.Bool {
-    get
-    set
-  }
-  public var disableHistoryBack: Swift.Int {
-    get
-    set
-  }
-  public var disableBackGesture: Swift.Int {
-    get
-    set
-  }
-  public var showCloseMiniAppIcon: Swift.Int {
-    get
-    set
-  }
-  public var headerTextColor: Swift.String?
-  public var headerBgColor: Swift.String?
-  public var statusBarBgColor: Swift.String?
-  public var statusBarTextColor: Swift.String?
-  public var bottomNavBarTextColor: Swift.String?
-  public var bottomNavBarBgColor: Swift.String?
-  public init(theme: DPSDKKit.Theme)
-  public init(color: DPSDKKit.DPSDKColor)
-  public init(color: DPSDKKit.DPSDKColor, theme: DPSDKKit.Theme)
-  public init()
-  public func setColor(_ color: DPSDKKit.DPSDKColor)
-  public func setTheme(_ theme: DPSDKKit.Theme)
-  public func setExtraParams(_ extraParams: [Swift.String : Swift.String]?)
-  public func setCustomActionMenuItemImage(_ image: UIKit.UIImage?)
-  public func enableSplash(_ isSplashEnabled: Swift.Bool)
-  public var theme: DPSDKKit.Theme? {
-    get
-  }
-  public var color: DPSDKKit.DPSDKColor? {
-    get
-  }
-  public var extraParams: [Swift.String : Swift.String]? {
-    get
-  }
-  public var customActionMenuItemImage: UIKit.UIImage? {
-    get
-  }
-  public var isSplashEnabled: Swift.Bool {
-    get
-  }
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKLifecycleObserver {
-  public static let shared: DPSDKKit.DPSDKLifecycleObserver
-  public var autoConfigPreload: Swift.Bool
-  public var clientId: Swift.String?
-  public func startObserving()
-  public func stopObserving()
-  public func triggerConfigPreload(force: Swift.Bool = false)
-  public func setClientId(_ clientId: Swift.String)
-  public func configure(clientId: Swift.String, autoPreload: Swift.Bool = true, minInterval: Foundation.TimeInterval = 30.0)
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKSimpleEncryption {
-  public static func getOrCreateEncryptionKey() -> Foundation.Data?
-  public static func clearEncryptionKey()
-  public static func hasEncryptionKey() -> Swift.Bool
-  public static func getKeyInfo() -> [Swift.String : Any]
-  @objc deinit
-}
-public struct SparkAppEncryptionConfig {
-  public static func getCurrentEncryptionKey() -> Foundation.Data?
-  public static func getConfigInfo() -> [Swift.String : Any]
-}
-public enum ConfigSource : Swift.String, Swift.CaseIterable {
-  case global
-  case pathSpecific
-  case runtimeParams
-  case jsBridge
-  case cache
-  case defaultValue
-  case unknown
-  public init?(rawValue: Swift.String)
-  public typealias AllCases = [DPSDKKit.ConfigSource]
-  public typealias RawValue = Swift.String
-  nonisolated public static var allCases: [DPSDKKit.ConfigSource] {
-    get
-  }
-  public var rawValue: Swift.String {
-    get
-  }
-}
-public struct ConfigRecord {
-}
-@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class DPSDKConfigDebugWindow : UIKit.UIView {
-  @objc deinit
-}
-extension DPSDKKit.DPSDKConfigDebugWindow : UIKit.UITableViewDataSource, UIKit.UITableViewDelegate {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
-}
-@_hasMissingDesignatedInitializers public class DPSDKConfigDebugLogger {
-  public static let shared: DPSDKKit.DPSDKConfigDebugLogger
-  public func setEnabled(_ enabled: Swift.Bool)
-  public func toggleEnabled()
-  public var debugWindow: DPSDKKit.DPSDKConfigDebugWindow?
-  public func showDebugWindow()
-  public func hideDebugWindow()
-  public func toggleDebugWindow()
-  public func showConfigToast()
-  public func markConfigSource(for key: Swift.String, source: DPSDKKit.ConfigSource)
-  public func clearConfigSources()
-  public func printFullConfig(appId: Swift.String, path: Swift.String?, config: [Swift.String : Any], pageName: Swift.String? = nil, reportPageName: Swift.String? = nil)
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
-public class DPAppWebViewPool {
-  public static let shared: DPSDKKit.DPAppWebViewPool
-  @available(iOS 13.0, *)
-  public class PoolConfiguration {
-    public var maxPoolSize: Swift.Int
-    public var preWarmCount: Swift.Int
-    public var cleanupInterval: Swift.Double
-    public var maxIdleTime: Swift.Double
-    public var enableSmartPreWarm: Swift.Bool
-    public init()
-    @objc deinit
-  }
-  public func configure(with config: DPSDKKit.DPAppWebViewPool.PoolConfiguration)
-  public func acquireWebView(for appId: Swift.String) -> WebKit.WKWebView?
-  public func releaseWebView(_ webView: WebKit.WKWebView)
-  public func discardWebView(_ webView: WebKit.WKWebView)
-  public func preWarmPool()
-  public func cleanPool(force: Swift.Bool = false, refill: Swift.Bool = true)
-  public func cleanPool(forAppId appId: Swift.String, force: Swift.Bool = false, refill: Swift.Bool = true)
-  public func getStatistics() -> [Swift.String : Any]
-  public func preWarmWebView(for appId: Swift.String)
-  public func initializeWithDefaults()
-  @objc deinit
-}
-extension DPSDKKit.DPAppViewController {
-  @_Concurrency.MainActor @preconcurrency public func triggerLifecycleEvent(_ lifecycleName: Swift.String, data: [Swift.String : Any]?)
-  @_Concurrency.MainActor @preconcurrency public func triggerErrorEvent(_ error: Swift.String)
-  @_Concurrency.MainActor @preconcurrency public func pushMessageToH5(eventType: Swift.String, data: [Swift.String : Any])
-  @_Concurrency.MainActor @preconcurrency public func pushLifecycleMessageToH5(lifecycleName: Swift.String, data: [Swift.String : Any]? = nil)
-  @_Concurrency.MainActor @preconcurrency public func pushNetworkStatusUpdate(isConnected: Swift.Bool)
-  @_Concurrency.MainActor @preconcurrency public func pushAppStateUpdate(state: Swift.String)
-  @_Concurrency.MainActor @preconcurrency public func pushCustomEvent(eventType: Swift.String, payload: [Swift.String : Any])
-  @_Concurrency.MainActor @preconcurrency public func testURLChangeDetection()
-  @_Concurrency.MainActor @preconcurrency public func testSpecificURLPathMatching(_ testURL: Swift.String) -> Swift.String?
-}
-@_hasMissingDesignatedInitializers public class DPAppJSBridgeJS {
-  public static func bridgeJavaScript() -> Swift.String
-  public static func checkCommand() -> Swift.String
-  public static func fetchQueueCommand() -> Swift.String
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKPreconditionChecker {
-  public enum PreconditionError : Swift.Error {
-    case sdkNotInitialized
-    case configNotLoaded
-    case noNetworkConnection
-    case delegateNotSet
-    case appConfigNotFound
-    case invalidURL
-    case webViewCreationFailed
-    public static func == (a: DPSDKKit.DPSDKPreconditionChecker.PreconditionError, b: DPSDKKit.DPSDKPreconditionChecker.PreconditionError) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
-  }
-  public static func checkSDKInitialized(showAlert: Swift.Bool = true) -> Swift.Bool
-  public static func checkConfigLoaded(clientId: Swift.String? = nil, showAlert: Swift.Bool = true) -> Swift.Bool
-  public static func checkNetworkConnection(showAlert: Swift.Bool = true) -> Swift.Bool
-  public static func checkDelegateSet(showAlert: Swift.Bool = true) -> Swift.Bool
-  public static func checkAppConfig(appId: Swift.String, showAlert: Swift.Bool = true) -> Swift.Bool
-  public static func ensureAppConfig(appId: Swift.String, autoReload: Swift.Bool = true, showAlert: Swift.Bool = true, completion: @escaping (Swift.Bool) -> Swift.Void)
-  public static func performFullCheck(appId: Swift.String? = nil, showAlert: Swift.Bool = true) -> (success: Swift.Bool, errors: [DPSDKKit.DPSDKPreconditionChecker.PreconditionError])
-  @objc deinit
-}
-public class DPAppVideoComponent {
-  final public let view: UIKit.UIView
-  public var isPlaying: Swift.Bool {
-    get
-  }
-  public var duration: Foundation.TimeInterval {
-    get
-  }
-  public var currentTime: Foundation.TimeInterval {
-    get
-  }
-  public init(frame: CoreFoundation.CGRect)
-  public func loadVideo(url: Foundation.URL)
-  public func play()
-  public func pause()
-  public func stop()
-  public func seek(to time: Foundation.TimeInterval)
-  public func setVolume(_ volume: Swift.Float)
-  public func setPlaybackRate(_ rate: Swift.Float)
-  public func setMuted(_ muted: Swift.Bool)
-  public func cleanup()
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKUserAgentHelper {
-  public static func getDefaultUserAgentSuffix() -> Swift.String
-  public static func appendSuffix(to userAgent: Swift.String, suffix: Swift.String?) -> Swift.String
-  public static func configureUserAgent(for webView: WebKit.WKWebView, completion: (() -> Swift.Void)? = nil)
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKConfigCache {
-  public static func saveConfig(_ configData: Foundation.Data, forClientId clientId: Swift.String) -> Swift.Bool
-  public static func loadConfig(forClientId clientId: Swift.String) -> Foundation.Data?
-  public static func isCacheValid(forClientId clientId: Swift.String) -> Swift.Bool
-  public static func deleteCache(forClientId clientId: Swift.String) -> Swift.Bool
-  public static func clearAllCaches() -> Swift.Bool
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
-public class DPSDKManager {
-  public static let shared: DPSDKKit.DPSDKManager
-  weak public var currentNavigationController: UIKit.UINavigationController?
-  public func createDPSDK(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], allowWithoutDelegate: Swift.Bool = false, completion: @escaping (DPSDKKit.DPApp?, (any Swift.Error)?) -> Swift.Void)
-  public func getExistingDPSDK(appId: Swift.String) -> DPSDKKit.DPApp?
-  public func closeDPSDK(appId: Swift.String)
-  public func closeAllSparkApps()
-  public func getActiveDPSDK() -> DPSDKKit.DPApp?
-  public func setActiveDPSDK(_ dpApp: DPSDKKit.DPApp?)
-  public func getAllSparkApps() -> [DPSDKKit.DPApp]
-  @objc deinit
-}
-extension DPSDKKit.DPSDKManager {
-  public func openDPSDK(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], from viewController: UIKit.UIViewController, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  public func preloadDPSDK(appId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-}
-@_hasMissingDesignatedInitializers public class DPSDKCacheFlowLogger {
-  public static var isEnabled: Swift.Bool
-  public static func startSession(clientId: Swift.String)
-  public static func endSession()
-  public static func logAppStartup()
-  public static func logEvent(step: Swift.String, action: Swift.String, details: Swift.String = "")
-  public static func logTapEvent(action: Swift.String, details: Swift.String = "")
-  public static func logSDKInitialization()
-  public static func logMemoryCacheCheck(found: Swift.Bool)
-  public static func logLocalCacheCheck(clientId: Swift.String, exists: Swift.Bool, age: Foundation.TimeInterval?)
-  public static func logCacheValidation(isValid: Swift.Bool, age: Foundation.TimeInterval, validityDuration: Foundation.TimeInterval)
-  public static func logNetworkConfigFetch(clientId: Swift.String, isBackground: Swift.Bool = false)
-  public static func logConfigLoadComplete(success: Swift.Bool, appCount: Swift.Int = 0)
-  public static func logPrefetchUrlsParsing(appId: Swift.String, urlCount: Swift.Int)
-  public static func logHomepageUrlIdentification(appId: Swift.String, homepageUrl: Swift.String?, found: Swift.Bool)
-  public static func logHTTPCacheManagerInit(memorySize: Swift.Int, diskSize: Swift.Int, expiration: Foundation.TimeInterval)
-  public static func logURLPrefetch(url: Swift.String, priority: Swift.String, cached: Swift.Bool)
-  public static func logResourceDownloadAndCache(url: Swift.String, success: Swift.Bool, resourceCount: Swift.Int = 0)
-  public static func logWaitingForUser()
-  public static func logUserOpenDPSDK(appId: Swift.String, path: Swift.String)
-  public static func logViewControllerCreation(appId: Swift.String, path: Swift.String)
-  public static func logWebViewCacheConfiguration()
-  public static func logURLTypeAndCacheStrategy(url: Swift.String, urlType: Swift.String, cacheStrategy: Swift.String)
-  public static func logWebViewStartLoading(url: Swift.String)
-  public static func logHomepageCacheHitCheck(url: Swift.String, cacheHit: Swift.Bool)
-  public static func logPageRenderingAndComplete(url: Swift.String, loadTime: Foundation.TimeInterval)
-  public static func logBackgroundResourcePrefetch(resourceCount: Swift.Int)
-  public static func logUserStartInteraction()
-  public static func logH5DOMContentLoaded(relativeMs: Swift.Int)
-  public static func logH5HeadParsed(relativeMs: Swift.Int)
-  public static func logH5BodyParsed(relativeMs: Swift.Int)
-  public static func logH5LoadComplete(relativeMs: Swift.Int)
-  public static func logH5FirstPaint(relativeMs: Swift.Int)
-  public static func logH5FirstContentfulPaint(relativeMs: Swift.Int)
-  public static func logH5PerformanceTiming(timing: Swift.String)
-  public static func logError(step: Swift.String, error: Swift.String, details: Swift.String = "")
-  public static func logPerformance(metric: Swift.String, value: Swift.Double, unit: Swift.String)
-  @objc deinit
-}
-extension DPSDKKit.DPSDKCacheFlowLogger {
-  public static func logCacheHitRate(hitCount: Swift.Int, totalCount: Swift.Int)
-  public static func logCacheUsage(memoryUsage: Swift.Int, diskUsage: Swift.Int)
-}
-@_hasMissingDesignatedInitializers final public class DPSDKPagePreOpenManager {
-  public static let shared: DPSDKKit.DPSDKPagePreOpenManager
-  final public func preOpen(appId: Swift.String, path: Swift.String?, params: [Swift.String : Any] = [:], keepWarmCount: Swift.Int = 1, keepAliveAfterConsume: Swift.Bool = false, completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  final public func preOpen(url: Swift.String, keepWarmCount: Swift.Int = 1, completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  final public func consumePreOpenedViewController(appId: Swift.String, expectedURL: Swift.String) -> DPSDKKit.DPAppViewController?
-  final public func consumePreOpenedViewController(url: Swift.String) -> DPSDKKit.DPAppViewController?
-  final public func cleanup(appId: Swift.String? = nil)
-  @objc deinit
-}
 @_hasMissingDesignatedInitializers public class DPSDKTemplateInterceptor {
   public static let shared: DPSDKKit.DPSDKTemplateInterceptor
   public func shouldUseLocalTemplate(for url: Swift.String) -> Swift.String?
@@ -467,326 +43,6 @@ public struct TemplateDebugInterceptorConfiguration {
 extension WebKit.WKWebView {
   @_Concurrency.MainActor @preconcurrency public func loadWithTemplateInterceptor(_ url: Foundation.URL, enableTemplateInterceptor: Swift.Bool = true)
 }
-@_hasMissingDesignatedInitializers public class DPAppWebViewTemplate {
-  public enum TemplateType {
-    case standard
-    case performance
-    case secure
-    case custom
-    public static func == (a: DPSDKKit.DPAppWebViewTemplate.TemplateType, b: DPSDKKit.DPAppWebViewTemplate.TemplateType) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
-  }
-  public static func createWebView(type: DPSDKKit.DPAppWebViewTemplate.TemplateType = .standard, customConfig: [Swift.String : Any]? = nil) -> WebKit.WKWebView
-  public static func createConfiguration(type: DPSDKKit.DPAppWebViewTemplate.TemplateType = .standard, customConfig: [Swift.String : Any]? = nil) -> WebKit.WKWebViewConfiguration
-  public static func getRecommendedSettings(for type: DPSDKKit.DPAppWebViewTemplate.TemplateType) -> [Swift.String : Any]
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPAppProcessPoolManager {
-  public static let shared: DPSDKKit.DPAppProcessPoolManager
-  final public let sharedProcessPool: WebKit.WKProcessPool
-  public func createIsolatedProcessPool() -> WebKit.WKProcessPool
-  @objc deinit
-}
-public class SparkAppWebViewConfigBuilder {
-  public init()
-  public func setAllowsInlineMediaPlayback(_ allows: Swift.Bool) -> DPSDKKit.SparkAppWebViewConfigBuilder
-  public func setJavaScriptEnabled(_ enabled: Swift.Bool) -> DPSDKKit.SparkAppWebViewConfigBuilder
-  public func setProcessPool(_ pool: WebKit.WKProcessPool?) -> DPSDKKit.SparkAppWebViewConfigBuilder
-  public func addUserScript(_ script: Swift.String, injectionTime: WebKit.WKUserScriptInjectionTime = .atDocumentStart) -> DPSDKKit.SparkAppWebViewConfigBuilder
-  public func build() -> WebKit.WKWebViewConfiguration
-  public func buildWebView() -> WebKit.WKWebView
-  @objc deinit
-}
-extension DPSDKKit.DPAppViewController : WebKit.WKNavigationDelegate {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didStartProvisionalNavigation navigation: WebKit.WKNavigation!)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didCommit navigation: WebKit.WKNavigation!)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFinish navigation: WebKit.WKNavigation!)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFailProvisionalNavigation navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webViewWebContentProcessDidTerminate(_ webView: WebKit.WKWebView)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
-}
-extension DPSDKKit.DPAppViewController : WebKit.WKUIDelegate {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, runJavaScriptAlertPanelWithMessage message: Swift.String, initiatedByFrame frame: WebKit.WKFrameInfo, completionHandler: @escaping () -> Swift.Void)
-}
-@_hasMissingDesignatedInitializers public class DPSDK {
-  public static let shared: DPSDKKit.DPSDK
-  public static func quickOpen(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], from viewController: UIKit.UIViewController, completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public static func getPerformanceReport() -> [Swift.String : Any]
-  public static let sdkVersion: Swift.String
-  public static let prefetchManager: DPSDKKit.DPSDKPrefetchManager
-  public static let resourcePrefetcher: DPSDKKit.DPSDKResourcePrefetcher
-  public static let sharedResources: DPSDKKit.DPSDKSharedResources
-  public static let advancedCacheManager: DPSDKKit.DPSDKAdvancedCacheManager
-  public static func configurePrefetch(config: DPSDKKit.DPSDKConfig)
-  public static let processPoolManager: DPSDKKit.DPAppProcessPoolManager
-  weak public var globalDelegate: (any DPSDKKit.DPSDKDelegate)?
-  public var globalJSBridgeSetup: ((DPSDKKit.DPAppJSBridge) -> Swift.Void)?
-  weak public var globalLifecycleListener: (any DPSDKKit.DPSDKLifecycleListener)?
-  weak public var defaultCustomDelegate: (any DPSDKKit.DPAppCustomDelegate)?
-  public var performanceMonitoringCallback: ((DPSDKKit.PerformanceMetrics) -> Swift.Void)?
-  public var loggingCallback: ((DPSDKKit.LogEntry) -> Swift.Void)?
-  public var config: DPSDKKit.DPSDKConfig? {
-    get
-  }
-  public func getCurrentAppId() -> Swift.String?
-  public func setAuthCode(token: Swift.String)
-  public var currentAuthCode: Swift.String? {
-    get
-  }
-  public func setCurrentAppId(_ appId: Swift.String?)
-  public init(config: DPSDKKit.DPSDKConfig)
-  public func initialize(clientId: Swift.String, cacheStrategy: DPSDKKit.CacheStrategy, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  public func initialize(with config: DPSDKKit.DPSDKConfig, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  public func updateLoggingEnabled(_ enabled: Swift.Bool)
-  public func enableAppActiveConfigReload()
-  public func ensureAppConfigLoaded(appId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  public func setConfig(_ config: DPSDKKit.DPSDKConfig)
-  public func getConfig() -> DPSDKKit.DPSDKConfig?
-  public func getDPSDK(appId: Swift.String) -> DPSDKKit.DPApp
-  public func getSparkAppAsync(appId: Swift.String, completion: @escaping (DPSDKKit.DPApp?, (any Swift.Error)?) -> Swift.Void)
-  public func getExistingDPSDK(appId: Swift.String) -> DPSDKKit.DPApp?
-  public func hideSparkApps()
-  public func logout()
-  public func getSparkApps(completion: @escaping ([DPSDKKit.DPSDKData], Swift.String?) -> Swift.Void)
-  public func openURL(_ url: Swift.String, from viewController: UIKit.UIViewController, config: [Swift.String : Any]? = nil, customDelegate: (any DPSDKKit.DPAppCustomDelegate)? = nil, appId: Swift.String? = nil, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void = { _, _ in })
-  public func openWebview(url: Swift.String, from viewController: UIKit.UIViewController, config: [Swift.String : Any]? = nil, customDelegate: (any DPSDKKit.DPAppCustomDelegate)? = nil, appId: Swift.String? = nil, completion: @escaping ([Swift.String : Any]) -> Swift.Void = { _ in })
-  public func createViewController(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any]? = nil, completion: @escaping (UIKit.UIViewController?, (any Swift.Error)?) -> Swift.Void)
-  public func isInitialized() -> Swift.Bool
-  public func ensureInitialized(completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  public static func initializeWithClientId(_ clientId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void = { _, _ in })
-  public static func getCurrentGlobalConfig() -> DPSDKKit.DPSDKGlobalConfigResponse?
-  public static func getCurrentClientId() -> Swift.String?
-  public func registerDeepLinkScheme(_ scheme: Swift.String)
-  public static func buildDeepLinkURL(scheme: Swift.String, appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any]? = nil) -> Foundation.URL?
-  public func reportPerformanceMetrics(_ metrics: DPSDKKit.PerformanceMetrics)
-  public func createPerformanceMetrics(for appId: Swift.String) -> DPSDKKit.PerformanceMetrics
-  public func logDebug(_ message: Swift.String, tag: Swift.String? = nil, appId: Swift.String? = nil, metadata: [Swift.String : Any]? = nil)
-  public func logInfo(_ message: Swift.String, tag: Swift.String? = nil, appId: Swift.String? = nil, metadata: [Swift.String : Any]? = nil)
-  public func logWarning(_ message: Swift.String, tag: Swift.String? = nil, appId: Swift.String? = nil, metadata: [Swift.String : Any]? = nil)
-  public func logError(_ message: Swift.String, tag: Swift.String? = nil, appId: Swift.String? = nil, metadata: [Swift.String : Any]? = nil)
-  public static func enablePerformanceMonitoring()
-  public static func performanceReport() -> Swift.String
-  public static func getPerformanceSummary() -> [Swift.String : Any]
-  @objc deinit
-}
-extension DPSDKKit.DPSDK {
-  public func getCachedSystemInfo() -> [Swift.String : Any]
-  public func refreshSystemInfo()
-}
-extension DPSDKKit.DPSDK {
-  public static func getTopViewController() -> UIKit.UIViewController?
-  public static func getKeyWindow() -> UIKit.UIWindow?
-}
-extension DPSDKKit.DPSDK {
-  public static func start(clientId: Swift.String = "default", completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public static func smartInitialize(clientId: Swift.String, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  public static func preOpen(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], keepWarmCount: Swift.Int = 1, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  public static func preheatDefaultRoutes(appId: Swift.String, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  public static func resetPreheatAndRebuild(completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  public static func preOpen(url: Swift.String, keepWarmCount: Swift.Int = 1, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  public static func open(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], from viewController: UIKit.UIViewController? = nil, completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public static func open(appId: Swift.String, path: Swift.String? = nil, params: Any, from viewController: UIKit.UIViewController? = nil, completion: ((Swift.Bool) -> Swift.Void)? = nil)
-  public static func createViewController(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], navigationController: UIKit.UINavigationController? = nil, completion: @escaping (UIKit.UIViewController?, (any Swift.Error)?) -> Swift.Void)
-  public func constructURL(appId: Swift.String, path: Swift.String?, params: [Swift.String : Any]) -> Swift.String
-  public static func configurePage(_ pageIdentifier: Swift.String, config: [Swift.String : Any])
-  public static func setGlobalConfig(_ key: Swift.String, value: Any)
-  public static func refreshGlobalConfig(completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  public static func refreshConfiguration(completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  public static func convertArrayToParams(appId: Swift.String, path: Swift.String?, paramArray: [Swift.String]) -> [Swift.String : Any]
-  public static func ensureAppConfigReady(appId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  public static func getAvailableServices(completion: @escaping ([DPSDKKit.DPSDKServiceInfo], (any Swift.Error)?) -> Swift.Void)
-  @available(iOS 13.0, *)
-  public static var navigationBackManager: DPSDKKit.SparkAppNavigationBackManager {
-    get
-  }
-  @available(iOS 13.0, *)
-  public static func registerNavigationBackInterceptorAsync(handler: @escaping DPSDKKit.SparkAppNavigationBackAsyncHandler)
-  @available(iOS 13.0, *)
-  public static func clearGlobalAsyncNavigationBackInterceptor()
-  @available(iOS 13.0, *)
-  public static func hasGlobalAsyncNavigationBackInterceptor() -> Swift.Bool
-  public static func enableDevelopmentSecurityMode()
-  @available(iOS 13.0, *)
-  public static func hostGoBack(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  @available(iOS 13.0, *)
-  public static func close(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  @available(iOS 13.0, *)
-  public static func refresh(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  @available(iOS 13.0, *)
-  public static func getActiveSparkApps() -> [[Swift.String : Any]]
-}
-extension DPSDKKit.DPSDK {
-  public static func executeOnMainThread(_ block: @escaping () -> Swift.Void)
-  public static func executeOnBackgroundThread(_ block: @escaping () -> Swift.Void)
-  public static func executeAfterDelay(_ delay: Foundation.TimeInterval, block: @escaping () -> Swift.Void)
-}
-extension DPSDKKit.DPApp {
-  public func getCurrentURLSimplified() -> Swift.String?
-  @available(iOS 13.0, *)
-  public static func hostGoBack(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  @available(iOS 13.0, *)
-  public static func close(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  @available(iOS 13.0, *)
-  public static func refresh(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
-  @available(iOS 13.0, *)
-  public static func getActiveSparkApps() -> [[Swift.String : Any]]
-}
-@_hasMissingDesignatedInitializers public class DPSDKPerformanceTracker {
-  public static func startEvent(_ eventName: Swift.String)
-  public static func endEvent(_ eventName: Swift.String) -> Foundation.TimeInterval?
-  public static func trackJSBridgeCall(_ action: Swift.String, closure: () -> Swift.Void)
-  public static func getPendingEvents() -> [Swift.String]
-  public static func reset()
-  @objc deinit
-}
-extension DPSDKKit.DPAppViewController {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func gestureRecognizer(_ gestureRecognizer: UIKit.UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIKit.UIGestureRecognizer) -> Swift.Bool
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIKit.UIGestureRecognizer) -> Swift.Bool
-}
-public protocol DPAppJSBridgeBaseDelegate : AnyObject {
-  func evaluateJavaScript(_ script: Swift.String)
-  func evaluateJavaScript(_ script: Swift.String, completionHandler: ((Any?, (any Swift.Error)?) -> Swift.Void)?)
-}
-public typealias DPAppJSBridgeResponseCallback = (Any?) -> Swift.Void
-public typealias DPAppJSBridgeHandler = (Any?, @escaping DPSDKKit.DPAppJSBridgeResponseCallback) -> Swift.Void
-public typealias DPAppJSBridgeMessage = [Swift.String : Any]
-@_hasMissingDesignatedInitializers public class DPAppJSBridgeBase {
-  weak public var delegate: (any DPSDKKit.DPAppJSBridgeBaseDelegate)?
-  public var startupMessageQueue: [DPSDKKit.DPAppJSBridgeMessage]
-  public var responseCallbacks: [Swift.String : DPSDKKit.DPAppJSBridgeResponseCallback]
-  public var messageHandlers: [Swift.String : DPSDKKit.DPAppJSBridgeHandler]
-  public var messageHandler: DPSDKKit.DPAppJSBridgeHandler?
-  public static var isLoggingEnabled: Swift.Bool
-  public static var logMaxLength: Swift.Int
-  public static func enableLogging()
-  public static func setLogMaxLength(_ length: Swift.Int)
-  public func reset()
-  public func sendData(_ data: Any?, responseCallback: DPSDKKit.DPAppJSBridgeResponseCallback?, handlerName: Swift.String?)
-  public func flushMessageQueue(_ messageQueueString: Swift.String?)
-  public func handleMessage(_ message: DPSDKKit.DPAppJSBridgeMessage)
-  public func injectJavaScriptFile()
-  public func forceInjectJavaScriptFile(completion: @escaping (Swift.Bool) -> Swift.Void)
-  public func isDPAppJSBridgeURL(_ url: Foundation.URL) -> Swift.Bool
-  public func isQueueMessageURL(_ url: Foundation.URL) -> Swift.Bool
-  public func isBridgeLoadedURL(_ url: Foundation.URL) -> Swift.Bool
-  public func logUnknownMessage(_ url: Foundation.URL)
-  public func javaScriptCheckCommand() -> Swift.String
-  public func javaScriptFetchQueueCommand() -> Swift.String
-  public func disableJavaScriptAlertBoxSafetyTimeout()
-  @objc deinit
-}
-public protocol DPSDKLifecycleListener : AnyObject {
-  func onLaunch(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  func onShow(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  func onResume(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  func onPause(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  func onClose(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  func onError(_ viewController: UIKit.UIViewController, appId: Swift.String, error: Swift.String, data: [Swift.String : Any]?)
-}
-@_hasMissingDesignatedInitializers open class DefaultDPSDKLifecycleListener : DPSDKKit.DPSDKLifecycleListener {
-  open func onLaunch(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  open func onShow(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  open func onResume(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  open func onPause(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  open func onClose(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
-  open func onError(_ viewController: UIKit.UIViewController, appId: Swift.String, error: Swift.String, data: [Swift.String : Any]?)
-  @objc deinit
-}
-public class SparkAppLifecycleHooksConfig {
-  public var onLaunch: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
-  public var onShow: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
-  public var onClose: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
-  public var onError: ((Swift.String, Swift.String, [Swift.String : Any]?) -> Swift.Void)?
-  public var onResume: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
-  public var onPause: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
-  public init()
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class SparkAppLifecycleHooksSubscription {
-  public func unsubscribe()
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class SparkAppLifecycleHooksListener {
-  public static func createListener(config: DPSDKKit.SparkAppLifecycleHooksConfig) -> DPSDKKit.SparkAppLifecycleHooksSubscription
-  public static func createListener(onLaunch: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onShow: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onClose: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onError: ((Swift.String, Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onResume: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onPause: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil) -> DPSDKKit.SparkAppLifecycleHooksSubscription
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPAppLifecycleEventSender {
-  public static func sendLifecycleEvent(_ eventName: Swift.String, appId: Swift.String, data: [Swift.String : Any] = [:], error: Swift.String? = nil)
-  @objc deinit
-}
-public enum SparkAppBackType : Swift.String, Swift.CaseIterable {
-  case gesture
-  case normal
-  case javascript
-  case system
-  public var description: Swift.String {
-    get
-  }
-  public init?(rawValue: Swift.String)
-  public typealias AllCases = [DPSDKKit.SparkAppBackType]
-  public typealias RawValue = Swift.String
-  nonisolated public static var allCases: [DPSDKKit.SparkAppBackType] {
-    get
-  }
-  public var rawValue: Swift.String {
-    get
-  }
-}
-public enum SparkAppNavigationActionType : Swift.String, Swift.CaseIterable {
-  case back
-  case close
-  public var description: Swift.String {
-    get
-  }
-  public init?(rawValue: Swift.String)
-  public typealias AllCases = [DPSDKKit.SparkAppNavigationActionType]
-  public typealias RawValue = Swift.String
-  nonisolated public static var allCases: [DPSDKKit.SparkAppNavigationActionType] {
-    get
-  }
-  public var rawValue: Swift.String {
-    get
-  }
-}
-public struct SparkAppPageParams {
-  public let url: Swift.String?
-  public let path: Swift.String?
-  public let appId: Swift.String
-  public let queryParams: [Swift.String : Swift.String]
-  public let additionalData: [Swift.String : Any]
-  public let backType: DPSDKKit.SparkAppBackType
-  public let navigationAction: DPSDKKit.SparkAppNavigationActionType
-  public init(url: Swift.String?, path: Swift.String?, appId: Swift.String, queryParams: [Swift.String : Swift.String], additionalData: [Swift.String : Any], backType: DPSDKKit.SparkAppBackType = .normal, navigationAction: DPSDKKit.SparkAppNavigationActionType = .back)
-}
-public enum SparkAppNavigationBackAction {
-  case goBack
-  case closePage
-  case ignore
-  public static func == (a: DPSDKKit.SparkAppNavigationBackAction, b: DPSDKKit.SparkAppNavigationBackAction) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
-    get
-  }
-}
-public typealias SparkAppNavigationBackAsyncHandler = (DPSDKKit.SparkAppPageParams, @escaping (DPSDKKit.SparkAppNavigationBackAction) -> Swift.Void) -> Swift.Void
-public typealias SparkAppNavigationBackSyncHandler = (DPSDKKit.SparkAppPageParams) -> DPSDKKit.SparkAppNavigationBackAction
-@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
-public class SparkAppNavigationBackManager {
-  public static let shared: DPSDKKit.SparkAppNavigationBackManager
-  public func registerGlobalAsyncInterceptor(handler: @escaping DPSDKKit.SparkAppNavigationBackAsyncHandler)
-  public func clearGlobalAsyncInterceptor()
-  public func shouldIntercept(pageParams: DPSDKKit.SparkAppPageParams) -> DPSDKKit.SparkAppNavigationBackAction?
-  public func shouldInterceptAsync(pageParams: DPSDKKit.SparkAppPageParams, completion: @escaping (DPSDKKit.SparkAppNavigationBackAction?) -> Swift.Void)
-  public func hasGlobalAsyncInterceptor() -> Swift.Bool
-  public func shouldInterceptGlobalAsync(pageParams: DPSDKKit.SparkAppPageParams) -> DPSDKKit.SparkAppNavigationBackAction?
-  @objc deinit
-}
-public func extractPageParameters(from webView: WebKit.WKWebView?, appId: Swift.String, additionalData: [Swift.String : Any] = [:]) -> DPSDKKit.SparkAppPageParams
 @objc @_inheritsConvenienceInitializers public class DPAppMapComponent : ObjectiveC.NSObject {
   final public let view: MapKit.MKMapView
   public var center: CoreLocation.CLLocationCoordinate2D {
@@ -811,536 +67,6 @@ extension DPSDKKit.DPAppMapComponent : MapKit.MKMapViewDelegate {
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func mapView(_ mapView: MapKit.MKMapView, didSelect view: MapKit.MKAnnotationView)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func mapView(_ mapView: MapKit.MKMapView, regionDidChangeAnimated animated: Swift.Bool)
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func mapView(_ mapView: MapKit.MKMapView, viewFor annotation: any MapKit.MKAnnotation) -> MapKit.MKAnnotationView?
-}
-@_hasMissingDesignatedInitializers public class DPSDKSharedResources {
-  public static let shared: DPSDKKit.DPSDKSharedResources
-  final public let processPool: WebKit.WKProcessPool
-  final public let dataStore: WebKit.WKWebsiteDataStore
-  public func addSparkAppDomain(_ domain: Swift.String)
-  public func getSparkAppDomains() -> [Swift.String]
-  public func clearSparkAppDomains()
-  public func createWebViewConfiguration() -> WebKit.WKWebViewConfiguration
-  public func clearSharedCache(completion: @escaping () -> Swift.Void = {})
-  public func getCacheInfo(completion: @escaping ([WebKit.WKWebsiteDataRecord]) -> Swift.Void)
-  public func getCacheStatistics(completion: @escaping ([Swift.String : Any]) -> Swift.Void)
-  @objc deinit
-}
-public protocol DPSDKDelegate : AnyObject {
-  func didSelectCustomActionMenuItemEvent(_ dpApp: DPSDKKit.DPApp)
-  func didDPAppChangeUrlEvent(_ dpApp: DPSDKKit.DPApp, url: Foundation.URL)
-  func didReceiveCustomEvent(_ dpApp: DPSDKKit.DPApp, customEvent: DPSDKKit.CustomEvent)
-  func didReceivePaymentEvent(_ dpApp: DPSDKKit.DPApp, paymentData: DPSDKKit.PaymentData)
-  func onLaunchDPApp(_ dpApp: DPSDKKit.DPApp)
-  func onResumeDPApp(_ dpApp: DPSDKKit.DPApp)
-  func onPauseDPApp(_ dpApp: DPSDKKit.DPApp)
-  func onCloseDPApp(_ dpApp: DPSDKKit.DPApp)
-  func onErrorDPApp(_ dpApp: DPSDKKit.DPApp, message: Swift.String)
-  func onAuthDPApp(_ dpApp: DPSDKKit.DPApp)
-  func onUserInteraction(_ dpApp: DPSDKKit.DPApp)
-}
-public protocol DPAppWebviewDelegate : AnyObject {
-  func decidePolicyFor(_ dpApp: DPSDKKit.DPApp, navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
-}
-public enum DPSDKErrorCodeReporter {
-  public static func normalizedCode(for errorCode: Swift.String) -> Swift.String
-  public static func isCovered(_ errorCode: Swift.String) -> Swift.Bool
-  public static func officialMessage(for errorCode: Swift.String, fallback: Swift.String) -> Swift.String
-  public static func officialDisplayMessage(for errorCode: Swift.String, fallback: Swift.String) -> Swift.String
-  public static func report(errorCode: Swift.String, message: Swift.String, source: Swift.String? = nil, context: [Swift.String : Any]? = nil)
-}
-public enum ResourcePrefetchPriority : Swift.Int, Swift.Comparable {
-  case low
-  case normal
-  case high
-  case critical
-  public static func < (lhs: DPSDKKit.ResourcePrefetchPriority, rhs: DPSDKKit.ResourcePrefetchPriority) -> Swift.Bool
-  public init?(rawValue: Swift.Int)
-  public typealias RawValue = Swift.Int
-  public var rawValue: Swift.Int {
-    get
-  }
-}
-@_hasMissingDesignatedInitializers public class DPSDKResourcePrefetcher {
-  public static let shared: DPSDKKit.DPSDKResourcePrefetcher
-  @objc deinit
-  public func prefetchResources(from config: [Swift.String : Any], appId: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void = { _ in })
-  public func prefetchURLs(_ urls: [Swift.String], appId: Swift.String, priority: DPSDKKit.ResourcePrefetchPriority = .normal, completion: @escaping (Swift.Bool) -> Swift.Void = { _ in })
-  public func isPrefetchComplete(for appId: Swift.String) -> Swift.Bool
-  public func cleanup(keepHomeCache: Swift.Bool = true)
-  public func getActiveWebViewCount() -> Swift.Int
-  public func getHomeCacheWebView(for appId: Swift.String) -> WebKit.WKWebView?
-  public func consumeHomeCacheWebView(for appId: Swift.String) -> WebKit.WKWebView?
-  public func prefetchHomeURLsWithCache(_ urls: [Swift.String], appId: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
-}
-@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
-public class DPSDKTemplateTracker {
-  public static let shared: DPSDKKit.DPSDKTemplateTracker
-  public var isEnabled: Swift.Bool
-  public func trackTemplateDownloadStart(appId: Swift.String, clientId: Swift.String, templateRemoteUrl: Swift.String, version: Swift.String)
-  public func trackTemplateDownloadSuccess(appId: Swift.String, clientId: Swift.String, templateRemoteUrl: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, fileSize: Swift.Int64, downloadTime: Foundation.TimeInterval)
-  public func trackTemplateDownloadFailed(appId: Swift.String, clientId: Swift.String, templateRemoteUrl: Swift.String, version: Swift.String, error: any Swift.Error)
-  public func trackTemplateDownloadProgress(appId: Swift.String, clientId: Swift.String, templateRemoteUrl: Swift.String, version: Swift.String, progress: Swift.Double, downloadedBytes: Swift.Int64, totalBytes: Swift.Int64)
-  public func trackTemplateCacheHit(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String)
-  public func trackTemplateCacheMiss(appId: Swift.String, clientId: Swift.String, version: Swift.String)
-  public func trackTemplateCacheExpired(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String)
-  public func trackTemplateReadStart(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String)
-  public func trackTemplateReadSuccess(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, fileSize: Swift.Int64, readTime: Foundation.TimeInterval)
-  public func trackTemplateReadFailed(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, error: any Swift.Error)
-  public func trackTemplateNotFound(appId: Swift.String, clientId: Swift.String, expectedPath: Foundation.URL, version: Swift.String)
-  public func trackTemplatePreloadStart(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, baseUrl: Swift.String, version: Swift.String)
-  public func trackTemplatePreloadSuccess(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, baseUrl: Swift.String, version: Swift.String, preloadTime: Foundation.TimeInterval, resourceCount: Swift.Int)
-  public func trackTemplatePreloadFailed(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, baseUrl: Swift.String, version: Swift.String, error: any Swift.Error)
-  public func trackTemplateValidateSuccess(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, fileSize: Swift.Int64, isValid: Swift.Bool)
-  public func trackTemplateValidateFailed(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, error: any Swift.Error)
-  public func trackTemplateVersionCheck(appId: Swift.String, clientId: Swift.String, version: Swift.String, hasLocalCache: Swift.Bool, needsUpdate: Swift.Bool = false)
-  public func trackTemplateCleanupStart(appId: Swift.String, clientId: Swift.String, reason: Swift.String)
-  public func trackTemplateCleanupComplete(appId: Swift.String, clientId: Swift.String, cleanedCount: Swift.Int, freedSpace: Swift.Int64)
-  public func trackTemplateCleanupFailed(appId: Swift.String, clientId: Swift.String, error: any Swift.Error)
-  @objc deinit
-}
-@available(iOS 13.0, *)
-extension DPSDKKit.DPSDKTemplateTracker {
-  @discardableResult
-  public func beginTrackingDownload(appId: Swift.String, clientId: Swift.String, remoteUrl: Swift.String, version: Swift.String) -> Swift.String
-  public func endTrackingDownload(sessionId: Swift.String, appId: Swift.String, clientId: Swift.String, remoteUrl: Swift.String, localPath: Foundation.URL?, version: Swift.String, success: Swift.Bool, fileSize: Swift.Int64 = 0, downloadTime: Foundation.TimeInterval = 0, error: (any Swift.Error)? = nil)
-  public func trackCacheStatus(appId: Swift.String, clientId: Swift.String, localPath: Foundation.URL?, version: Swift.String, isHit: Swift.Bool)
-}
-@_hasMissingDesignatedInitializers public class DPSDKPageNameGenerator {
-  public static func generatePageName(appId: Swift.String, path: Swift.String?) -> Swift.String
-  public static func extractPath(from url: Swift.String?) -> Swift.String?
-  public static func generatePageNameFromDeepLink(appId: Swift.String, path: Swift.String?, params: [Swift.String : Any]?) -> Swift.String
-  public static func getLocalizedPageName(appId: Swift.String, path: Swift.String?) -> Swift.String?
-  public static func isValidPageName(_ pageName: Swift.String) -> Swift.Bool
-  public static func extractAppId(from pageName: Swift.String) -> Swift.String?
-  public static func extractPath(from pageName: Swift.String) -> Swift.String?
-  @objc deinit
-}
-extension DPSDKKit.DPSDKPageNameGenerator {
-  public static func generatePageAnalytics(appId: Swift.String, path: Swift.String?) -> [Swift.String : Any]
-}
-@objc @available(iOS 13.0, *)
-public class DPAppCustomEvent : ObjectiveC.NSObject {
-  final public let type: Swift.String
-  final public let payload: [Swift.String : Any]?
-  final public let timestamp: Foundation.Date
-  final public let appId: Swift.String
-  public var debugSource: Swift.String?
-  public var debugInstanceID: Swift.String?
-  public var debugViewURL: Swift.String?
-  public init(type: Swift.String, payload: [Swift.String : Any]? = nil, appId: Swift.String)
-  public var debugContextDescription: Swift.String {
-    get
-  }
-  @objc deinit
-}
-@objc @available(iOS 13.0, *)
-public class SparkAppPaymentEvent : ObjectiveC.NSObject {
-  final public let eventType: Swift.String
-  final public let amount: Swift.Double
-  final public let currency: Swift.String
-  final public let paymentCardId: Swift.String?
-  final public let productType: Swift.String?
-  final public let appId: Swift.String
-  final public let prebookingToken: Swift.String?
-  final public let cardType: Swift.String?
-  final public let payCardLast4: Swift.String?
-  public init(eventType: Swift.String, amount: Swift.Double = 0.0, currency: Swift.String = "USD", paymentCardId: Swift.String? = nil, productType: Swift.String? = nil, appId: Swift.String, prebookingToken: Swift.String? = nil, cardType: Swift.String? = nil, payCardLast4: Swift.String? = nil)
-  @objc deinit
-}
-@objc @available(iOS 13.0, *)
-public class DPAppLifecycleEvent : ObjectiveC.NSObject {
-  final public let lifecycleName: Swift.String
-  final public let appId: Swift.String
-  final public let data: [Swift.String : Any]?
-  final public let timestamp: Foundation.Date
-  final public let pageName: Swift.String?
-  final public let reportPageName: Swift.String?
-  public init(lifecycleName: Swift.String, appId: Swift.String, data: [Swift.String : Any]? = nil, pageName: Swift.String? = nil, reportPageName: Swift.String? = nil)
-  public func getReportPageNameWithFallback() -> Swift.String?
-  @objc deinit
-}
-@objc @available(iOS 13.0, *)
-public class DPAppResponse : ObjectiveC.NSObject {
-  final public let statusCode: Swift.Int
-  final public let errCode: Swift.String?
-  final public let msg: Swift.String?
-  final public let data: [Swift.String : Any]
-  public init(statusCode: Swift.Int, errCode: Swift.String? = nil, msg: Swift.String? = nil, data: [Swift.String : Any]? = nil)
-  public static func success(data: [Swift.String : Any] = [:]) -> DPSDKKit.DPAppResponse
-  public static func failure(errCode: Swift.String, msg: Swift.String, data: [Swift.String : Any] = [:]) -> DPSDKKit.DPAppResponse
-  public var isSuccess: Swift.Bool {
-    get
-  }
-  public func toDictionary() -> [Swift.String : Any]
-  public func toJSONString() -> Swift.String
-  public func toJSONString(excludeJSONStringFields: [Swift.String] = []) -> Swift.String
-  @objc deinit
-}
-public protocol DPAppCustomDelegate : AnyObject {
-  func dpAppDidLaunch(_ event: DPSDKKit.DPAppLifecycleEvent)
-  func dpAppDidShow(_ event: DPSDKKit.DPAppLifecycleEvent)
-  func dpAppDidHide(_ event: DPSDKKit.DPAppLifecycleEvent)
-  func dpAppDidPause(_ event: DPSDKKit.DPAppLifecycleEvent)
-  func dpAppDidResume(_ event: DPSDKKit.DPAppLifecycleEvent)
-  func dpAppDidClose(_ event: DPSDKKit.DPAppLifecycleEvent)
-  func dpAppDidError(_ event: DPSDKKit.DPAppLifecycleEvent, error: Swift.String)
-  func dpAppHandleCustomEvent(_ event: DPSDKKit.DPAppCustomEvent, completion: @escaping (DPSDKKit.DPAppResponse) -> Swift.Void)
-}
-extension DPSDKKit.DPAppCustomDelegate {
-  public func dpAppDidLaunch(_ event: DPSDKKit.DPAppLifecycleEvent)
-  public func dpAppDidShow(_ event: DPSDKKit.DPAppLifecycleEvent)
-  public func dpAppDidHide(_ event: DPSDKKit.DPAppLifecycleEvent)
-  public func dpAppDidPause(_ event: DPSDKKit.DPAppLifecycleEvent)
-  public func dpAppDidResume(_ event: DPSDKKit.DPAppLifecycleEvent)
-  public func dpAppDidClose(_ event: DPSDKKit.DPAppLifecycleEvent)
-  public func dpAppDidError(_ event: DPSDKKit.DPAppLifecycleEvent, error: Swift.String)
-}
-@_hasMissingDesignatedInitializers public class DPSDKTemplateDebugger {
-  public static let shared: DPSDKKit.DPSDKTemplateDebugger
-  public func downloadAndSaveDebugTemplate(from url: Swift.String, completion: @escaping (Swift.Result<Foundation.URL, any Swift.Error>) -> Swift.Void)
-  public func downloadTemplateFromDebugUrl(debugUrl: Swift.String, clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Result<Swift.String, any Swift.Error>) -> Swift.Void)
-  public func saveDebugTemplate(htmlContent: Swift.String, clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
-  public func saveHTMLToCache(htmlContent: Swift.String, clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Foundation.URL?) -> Swift.Void)
-  public func readCachedTemplate(clientId: Swift.String, appId: Swift.String, version: Swift.String) -> Swift.String?
-  public func extractBaseUrl(from debugUrl: Swift.String) -> Foundation.URL?
-  public func getAllCachedTemplates() -> [Swift.String]
-  public func clearAllCachedTemplates() -> Swift.Bool
-  public func exportTemplate(clientId: Swift.String, appId: Swift.String, version: Swift.String, to exportPath: Foundation.URL) -> Swift.Bool
-  @objc deinit
-}
-extension DPSDKKit.DPSDKTemplateDebugger {
-  public func displayTemplateInWebView(htmlContent: Swift.String, baseUrl: Foundation.URL?, completion: @escaping (WebKit.WKWebView?) -> Swift.Void)
-  public func debugTemplateFlow(debugUrl: Swift.String, clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Result<WebKit.WKWebView, any Swift.Error>) -> Swift.Void)
-}
-public struct SparkAppDeepLinkComponents {
-  public let appId: Swift.String
-  public let path: Swift.String?
-  public let params: [Swift.String : Any]
-  public init(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:])
-}
-public enum SparkAppDeepLinkError : Swift.Error {
-  case invalidURL
-  case invalidScheme
-  case invalidHost
-  case missingAppId
-  case appNotFound
-  case invalidParams
-  case configNotLoaded
-  public static func == (a: DPSDKKit.SparkAppDeepLinkError, b: DPSDKKit.SparkAppDeepLinkError) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
-    get
-  }
-}
-@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
-public class DPSDKDeepLinkManager {
-  public static let shared: DPSDKKit.DPSDKDeepLinkManager
-  public func registerScheme(_ scheme: Swift.String)
-  public func canHandle(url: Foundation.URL) -> Swift.Bool
-  public func parseURL(_ url: Foundation.URL) -> DPSDKKit.SparkAppDeepLinkComponents?
-  public static func buildURL(scheme: Swift.String, appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any]? = nil) -> Foundation.URL?
-  public func isConfigLoaded() -> Swift.Bool
-  public func getConfigLoadingState() -> DPSDKKit.DPSDKConfigManager.ConfigLoadingState
-  public func ensureConfigLoaded(clientId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
-  @objc deinit
-}
-public struct DPAppJSBridgeHandlers {
-  public var onCallback: (([Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
-  public var onKeyword: (([Swift.String : Any]) -> Swift.Void)?
-  public var onCustomerEvent: ((Swift.String, [Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
-  public var onPaymentInfoRequest: ((@escaping (Any) -> Swift.Void) -> Swift.Void)?
-  public var onChangePaymentCard: (([Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
-  public var onAddPaymentCard: (([Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
-  public var onPaymentRequest: (([Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
-  public init()
-}
-@objc @available(iOS 13.0, *)
-public class DPAppJSBridge : ObjectiveC.NSObject {
-  public var handlers: DPSDKKit.DPAppJSBridgeHandlers
-  public static var enableLogging: Swift.Bool {
-    get
-    set
-  }
-  weak public var webView: WebKit.WKWebView? {
-    get
-    set
-  }
-  public typealias Callback = (Any?) -> Swift.Void
-  public init(webView: WebKit.WKWebView)
-  @objc deinit
-  public func setWebViewDelegate(_ delegate: (any WebKit.WKNavigationDelegate)?)
-  public func callHandler(_ handlerName: Swift.String, data: Any? = nil, responseCallback: DPSDKKit.DPAppJSBridgeResponseCallback? = nil)
-  public func registerHandler(_ handlerName: Swift.String, handler: @escaping (Any?, @escaping (Any?) -> Swift.Void) -> Swift.Void)
-  public func removeHandler(_ handlerName: Swift.String)
-  public func reset()
-  public func disableJavaScriptAlertBoxSafetyTimeout()
-  public func injectBridge()
-  public func injectBridgeWithValidation(completion: @escaping (Swift.Bool) -> Swift.Void)
-  public func checkBridgeLoaded(completion: @escaping (Swift.Bool) -> Swift.Void)
-  public func injectJavaScript(_ script: Swift.String)
-  public static func enableBridgeLogging()
-}
-extension DPSDKKit.DPAppJSBridge : DPSDKKit.DPAppJSBridgeBaseDelegate {
-  public func evaluateJavaScript(_ script: Swift.String)
-  public func evaluateJavaScript(_ script: Swift.String, completionHandler: ((Any?, (any Swift.Error)?) -> Swift.Void)?)
-}
-extension DPSDKKit.DPAppJSBridge : WebKit.WKScriptMessageHandler {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
-}
-extension DPSDKKit.DPAppJSBridge : WebKit.WKNavigationDelegate {
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFinish navigation: WebKit.WKNavigation!)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didStartProvisionalNavigation navigation: WebKit.WKNavigation!)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFailProvisionalNavigation navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationResponse: WebKit.WKNavigationResponse, decisionHandler: @escaping (WebKit.WKNavigationResponsePolicy) -> Swift.Void)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WebKit.WKNavigation!)
-  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didReceive challenge: Foundation.URLAuthenticationChallenge, completionHandler: @escaping (Foundation.URLSession.AuthChallengeDisposition, Foundation.URLCredential?) -> Swift.Void)
-}
-extension DPSDKKit.DPAppViewController : DPSDKKit.DPAppCustomNavigationBarDelegate {
-  @_Concurrency.MainActor @preconcurrency public func customNavigationBarDidTapBack(_ navigationBar: DPSDKKit.DPAppCustomNavigationBar)
-  @_Concurrency.MainActor @preconcurrency public func customNavigationBarDidTapClose(_ navigationBar: DPSDKKit.DPAppCustomNavigationBar)
-  @_Concurrency.MainActor @preconcurrency public func customNavigationBarDidTapMore(_ navigationBar: DPSDKKit.DPAppCustomNavigationBar)
-}
-public class DPApp {
-  final public let appId: Swift.String
-  weak public var delegate: (any DPSDKKit.DPSDKDelegate)?
-  weak public var webViewDelegate: (any DPSDKKit.DPAppWebviewDelegate)?
-  weak public var customDelegate: (any DPSDKKit.DPAppCustomDelegate)?
-  public init(appId: Swift.String)
-  public func open(with viewController: UIKit.UIViewController)
-  public func sendCustomEvent(_ customEvent: DPSDKKit.CustomEvent)
-  public func sendPaymentEvent(_ paymentData: DPSDKKit.PaymentData)
-  public func close()
-  public func setConfig(_ config: DPSDKKit.DPAppConfiguration?)
-  public func setData(_ data: [Swift.String : Any]?)
-  public func getData() -> [Swift.String : Any]?
-  public func applyPageSetting(_ pageSetting: DPSDKKit.DPAppPageSetting)
-  public func showCustomActionMenuItem()
-  public func hideCustomActionMenuItem()
-  public func injectHostAuthToken(_ authToken: Swift.String)
-  public func setAuthCode(_ authCode: Swift.String)
-  public var currentConfig: DPSDKKit.DPAppConfiguration? {
-    get
-  }
-  public var currentData: [Swift.String : Any]? {
-    get
-  }
-  public var currentAuthCode: Swift.String? {
-    get
-  }
-  public var currentHostAuthToken: Swift.String? {
-    get
-  }
-  public func getCurrentURL() -> Swift.String?
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKSimpleConfigManager {
-  public static let shared: DPSDKKit.DPSDKSimpleConfigManager
-  public enum ConfigTemplate {
-    case basic
-    case performance
-    case lowMemory
-    case highEnd
-    case custom
-    public static func == (a: DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate, b: DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
-  }
-  public func useTemplate(_ template: DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate) -> DPSDKKit.DPSDKConfig
-  public func autoDetectAndConfigure() -> DPSDKKit.DPSDKConfig
-  public func setOverride(key: Swift.String, value: Any)
-  public func setPageConfig(path: Swift.String, config: [Swift.String : Any])
-  public func getPageConfig(for path: Swift.String) -> [Swift.String : Any]
-  public func applyBestPractices(to config: DPSDKKit.DPSDKConfig)
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKDataLayerCache {
-  public static let shared: DPSDKKit.DPSDKDataLayerCache
-  public enum CacheType {
-    case template
-    case apiData
-    case resource
-    case hybrid
-    public static func == (a: DPSDKKit.DPSDKDataLayerCache.CacheType, b: DPSDKKit.DPSDKDataLayerCache.CacheType) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
-  }
-  public enum PrefetchPriority {
-    case high
-    case normal
-    case low
-    public static func == (a: DPSDKKit.DPSDKDataLayerCache.PrefetchPriority, b: DPSDKKit.DPSDKDataLayerCache.PrefetchPriority) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
-  }
-  public class DataCacheConfiguration {
-    public var templateCacheSize: Swift.Int
-    public var dataCacheSize: Swift.Int
-    public var cacheValidity: Swift.Double
-    public var enableCompression: Swift.Bool
-    public var enableIncrementalUpdate: Swift.Bool
-    public var apiEndpoints: [Swift.String : Swift.String]
-    public init()
-    @objc deinit
-  }
-  public func configure(_ config: DPSDKKit.DPSDKDataLayerCache.DataCacheConfiguration)
-  public func cacheTemplate(appId: Swift.String, path: Swift.String, template: Swift.String, metadata: [Swift.String : Any]? = nil)
-  public func getCachedTemplate(appId: Swift.String, path: Swift.String) -> DPSDKKit.CachedTemplate?
-  public func prefetchData(appId: Swift.String, endpoints: [Swift.String], params: [Swift.String : Any]? = nil, priority: DPSDKKit.DPSDKDataLayerCache.PrefetchPriority = .normal)
-  public func getPrefetchedData(appId: Swift.String, endpoint: Swift.String, params: [Swift.String : Any]? = nil) -> DPSDKKit.CachedData?
-  public func updateCachedData(appId: Swift.String, endpoint: Swift.String, updates: [Swift.String : Any])
-  public func clearCache(type: DPSDKKit.DPSDKDataLayerCache.CacheType? = nil)
-  public func getStatistics() -> [Swift.String : Any]
-  public func injectCache(to webView: WebKit.WKWebView, appId: Swift.String)
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class CachedTemplate {
-  final public let appId: Swift.String
-  final public let path: Swift.String
-  final public let template: Swift.String
-  final public let metadata: [Swift.String : Any]?
-  final public let size: Swift.Int64
-  final public let compressed: Swift.Bool
-  final public let timestamp: Foundation.Date
-  public var lastAccessTime: Foundation.Date
-  public var isExpired: Swift.Bool {
-    get
-  }
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class CachedData {
-  final public let appId: Swift.String
-  final public let endpoint: Swift.String
-  final public let params: [Swift.String : Any]?
-  public var data: Foundation.Data {
-    get
-  }
-  final public let size: Swift.Int64
-  final public let timestamp: Foundation.Date
-  public var lastAccessTime: Foundation.Date
-  public var isExpired: Swift.Bool {
-    get
-  }
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKPerformanceMonitor {
-  public static let shared: DPSDKKit.DPSDKPerformanceMonitor
-  @_hasMissingDesignatedInitializers public class PerformanceMetrics {
-    public var sdkInitTime: Swift.Double
-    public var configLoadTime: Swift.Double
-    public var webViewPoolHitRate: Swift.Double
-    public var httpCacheHitRate: Swift.Double
-    public var totalBytesSaved: Swift.Int64
-    public var appOpenTimes: [Swift.String : Swift.Double]
-    public var prefetchSuccessRate: Swift.Double
-    public func toDictionary() -> [Swift.String : Any]
-    @objc deinit
-  }
-  public func startMonitoring()
-  public func stopMonitoring()
-  public func recordInitializationTime(_ time: Swift.Double)
-  public func recordConfigLoadTime(_ time: Swift.Double)
-  public func startTiming(for key: Swift.String)
-  public func endTiming(for key: Swift.String) -> Swift.Double
-  public func getCurrentMetrics() -> DPSDKKit.DPSDKPerformanceMonitor.PerformanceMetrics
-  public func getPerformanceReport() -> Swift.String
-  public func getPerformanceSummary() -> [Swift.String : Any]
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DPSDKResources {
-  public static var resourceBundle: Foundation.Bundle? {
-    get
-  }
-  public static func image(named name: Swift.String) -> UIKit.UIImage?
-  public static func createBackButtonImage() -> UIKit.UIImage?
-  public static func createCloseButtonImage() -> UIKit.UIImage?
-  @objc deinit
-}
-@objc @_hasMissingDesignatedInitializers @available(iOS 13.0, *)
-@_Concurrency.MainActor @preconcurrency public class DPAppViewController : UIKit.UIViewController, UIKit.UIGestureRecognizerDelegate {
-  public enum CreationSource : Swift.String {
-    case open
-    case preOpen
-    case preload
-    public init?(rawValue: Swift.String)
-    @available(iOS 13.0, *)
-    public typealias RawValue = Swift.String
-    public var rawValue: Swift.String {
-      get
-    }
-  }
-  @_Concurrency.MainActor @preconcurrency final public let dpApp: DPSDKKit.DPApp
-  @_Concurrency.MainActor @preconcurrency final public let url: Swift.String
-  @_Concurrency.MainActor @preconcurrency final public let creationSource: DPSDKKit.DPAppViewController.CreationSource
-  @_Concurrency.MainActor @preconcurrency final public let debugInstanceID: Swift.String
-  @_Concurrency.MainActor @preconcurrency public var pageTitle: Swift.String? {
-    get
-  }
-  @_Concurrency.MainActor @preconcurrency public var webView: WebKit.WKWebView! {
-    get
-  }
-  @_Concurrency.MainActor @preconcurrency public var jsBridge: DPSDKKit.DPAppJSBridge!
-  @_Concurrency.MainActor @preconcurrency weak public var originalViewController: UIKit.UIViewController?
-  @_Concurrency.MainActor @preconcurrency public var isCreatedViaCreateVC: Swift.Bool
-  @_Concurrency.MainActor @preconcurrency weak public var customDelegate: (any DPSDKKit.DPAppCustomDelegate)?
-  @_Concurrency.MainActor @preconcurrency weak public var lifecycleListener: (any DPSDKKit.DPSDKLifecycleListener)?
-  @_Concurrency.MainActor @preconcurrency public init(dpApp: DPSDKKit.DPApp, url: Swift.String, creationSource: DPSDKKit.DPAppViewController.CreationSource = .open)
-  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidLoad()
-  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
-  @_Concurrency.MainActor @preconcurrency @objc override dynamic public var preferredStatusBarStyle: UIKit.UIStatusBarStyle {
-    @objc get
-  }
-  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
-  @objc deinit
-  @_Concurrency.MainActor @preconcurrency public func refreshPageSettings()
-  @_Concurrency.MainActor @preconcurrency public func closeDPSDK()
-  @_Concurrency.MainActor @preconcurrency public func closeCurrentPage()
-  @_Concurrency.MainActor @preconcurrency public func closeCurrentPage(animated: Swift.Bool)
-  @_Concurrency.MainActor @preconcurrency public func closePage(animated: Swift.Bool)
-  @_Concurrency.MainActor @preconcurrency public func closeMultiplePages(count: Swift.Int)
-  @_Concurrency.MainActor @preconcurrency public func closeAllPrevPages()
-  @_Concurrency.MainActor @preconcurrency public func reload()
-  @_Concurrency.MainActor @preconcurrency public func goBack()
-  @_Concurrency.MainActor @preconcurrency public func goForward()
-  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func observeValue(forKeyPath keyPath: Swift.String?, of object: Any?, change: [Foundation.NSKeyValueChangeKey : Any]?, context: Swift.UnsafeMutableRawPointer?)
-}
-@_hasMissingDesignatedInitializers public class DPSDKAdvancedCacheManager {
-  public static let shared: DPSDKKit.DPSDKAdvancedCacheManager
-  public class AdvancedCacheConfiguration {
-    public var webViewPoolConfig: DPSDKKit.DPAppWebViewPool.PoolConfiguration
-    final public let httpCacheConfig: DPSDKKit.DPSDKHTTPCacheManager.CacheConfiguration
-    final public let dataLayerConfig: DPSDKKit.DPSDKDataLayerCache.DataCacheConfiguration
-    public var enableAllFeatures: Swift.Bool
-    public var enableBatteryOptimization: Swift.Bool
-    public var enableNetworkAwareness: Swift.Bool
-    public var enableLegacyPrefetchIntegration: Swift.Bool
-    public var preloadPagesPerApp: Swift.Int
-    public var maxConcurrentPreloads: Swift.Int
-    public var enableDataPrefetch: Swift.Bool
-    public init()
-    @objc deinit
-  }
-  public var initialized: Swift.Bool {
-    get
-  }
-  public func initialize(with config: DPSDKKit.DPSDKAdvancedCacheManager.AdvancedCacheConfiguration? = nil)
-  public func prepareResources(for appId: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
-  public func getOptimizedWebView(for appId: Swift.String) -> WebKit.WKWebView?
-  public func releaseWebView(_ webView: WebKit.WKWebView)
-  public func getCacheStatistics() -> [Swift.String : Any]
-  public func clearCache(completion: @escaping (Swift.Bool) -> Swift.Void)
-  @objc deinit
-}
-extension DPSDKKit.DPSDKAdvancedCacheManager {
-  public func shouldUseLegacyPrefetch(for appId: Swift.String) -> Swift.Bool
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class DPAppCustomNavigationBar : UIKit.UIView {
   @_Concurrency.MainActor @preconcurrency weak public var delegate: (any DPSDKKit.DPAppCustomNavigationBarDelegate)?
@@ -1582,6 +308,659 @@ extension DPSDKKit.DPSDKConfigManager {
   public func setNavigationTitleFont(fontName: Swift.String? = nil, fontSize: CoreFoundation.CGFloat? = nil, fontWeight: UIKit.UIFont.Weight = .semibold) -> DPSDKKit.AppIdFontConfiguration
   @objc deinit
 }
+public class DPApp {
+  final public let appId: Swift.String
+  weak public var delegate: (any DPSDKKit.DPSDKDelegate)?
+  weak public var webViewDelegate: (any DPSDKKit.DPAppWebviewDelegate)?
+  weak public var customDelegate: (any DPSDKKit.DPAppCustomDelegate)?
+  public init(appId: Swift.String)
+  public func open(with viewController: UIKit.UIViewController)
+  public func sendCustomEvent(_ customEvent: DPSDKKit.CustomEvent)
+  public func sendPaymentEvent(_ paymentData: DPSDKKit.PaymentData)
+  public func close()
+  public func setConfig(_ config: DPSDKKit.DPAppConfiguration?)
+  public func setData(_ data: [Swift.String : Any]?)
+  public func getData() -> [Swift.String : Any]?
+  public func applyPageSetting(_ pageSetting: DPSDKKit.DPAppPageSetting)
+  public func showCustomActionMenuItem()
+  public func hideCustomActionMenuItem()
+  public func injectHostAuthToken(_ authToken: Swift.String)
+  public func setAuthCode(_ authCode: Swift.String)
+  public var currentConfig: DPSDKKit.DPAppConfiguration? {
+    get
+  }
+  public var currentData: [Swift.String : Any]? {
+    get
+  }
+  public var currentAuthCode: Swift.String? {
+    get
+  }
+  public var currentHostAuthToken: Swift.String? {
+    get
+  }
+  public func getCurrentURL() -> Swift.String?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPSDKDataLayerCache {
+  public static let shared: DPSDKKit.DPSDKDataLayerCache
+  public enum CacheType {
+    case template
+    case apiData
+    case resource
+    case hybrid
+    public static func == (a: DPSDKKit.DPSDKDataLayerCache.CacheType, b: DPSDKKit.DPSDKDataLayerCache.CacheType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum PrefetchPriority {
+    case high
+    case normal
+    case low
+    public static func == (a: DPSDKKit.DPSDKDataLayerCache.PrefetchPriority, b: DPSDKKit.DPSDKDataLayerCache.PrefetchPriority) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public class DataCacheConfiguration {
+    public var templateCacheSize: Swift.Int
+    public var dataCacheSize: Swift.Int
+    public var cacheValidity: Swift.Double
+    public var enableCompression: Swift.Bool
+    public var enableIncrementalUpdate: Swift.Bool
+    public var apiEndpoints: [Swift.String : Swift.String]
+    public init()
+    @objc deinit
+  }
+  public func configure(_ config: DPSDKKit.DPSDKDataLayerCache.DataCacheConfiguration)
+  public func cacheTemplate(appId: Swift.String, path: Swift.String, template: Swift.String, metadata: [Swift.String : Any]? = nil)
+  public func getCachedTemplate(appId: Swift.String, path: Swift.String) -> DPSDKKit.CachedTemplate?
+  public func prefetchData(appId: Swift.String, endpoints: [Swift.String], params: [Swift.String : Any]? = nil, priority: DPSDKKit.DPSDKDataLayerCache.PrefetchPriority = .normal)
+  public func getPrefetchedData(appId: Swift.String, endpoint: Swift.String, params: [Swift.String : Any]? = nil) -> DPSDKKit.CachedData?
+  public func updateCachedData(appId: Swift.String, endpoint: Swift.String, updates: [Swift.String : Any])
+  public func clearCache(type: DPSDKKit.DPSDKDataLayerCache.CacheType? = nil)
+  public func getStatistics() -> [Swift.String : Any]
+  public func injectCache(to webView: WebKit.WKWebView, appId: Swift.String)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class CachedTemplate {
+  final public let appId: Swift.String
+  final public let path: Swift.String
+  final public let template: Swift.String
+  final public let metadata: [Swift.String : Any]?
+  final public let size: Swift.Int64
+  final public let compressed: Swift.Bool
+  final public let timestamp: Foundation.Date
+  public var lastAccessTime: Foundation.Date
+  public var isExpired: Swift.Bool {
+    get
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class CachedData {
+  final public let appId: Swift.String
+  final public let endpoint: Swift.String
+  final public let params: [Swift.String : Any]?
+  public var data: Foundation.Data {
+    get
+  }
+  final public let size: Swift.Int64
+  final public let timestamp: Foundation.Date
+  public var lastAccessTime: Foundation.Date
+  public var isExpired: Swift.Bool {
+    get
+  }
+  @objc deinit
+}
+public protocol DPSDKLifecycleListener : AnyObject {
+  func onLaunch(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  func onShow(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  func onResume(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  func onPause(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  func onClose(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  func onError(_ viewController: UIKit.UIViewController, appId: Swift.String, error: Swift.String, data: [Swift.String : Any]?)
+}
+@_hasMissingDesignatedInitializers open class DefaultDPSDKLifecycleListener : DPSDKKit.DPSDKLifecycleListener {
+  open func onLaunch(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  open func onShow(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  open func onResume(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  open func onPause(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  open func onClose(_ viewController: UIKit.UIViewController, appId: Swift.String, data: [Swift.String : Any]?)
+  open func onError(_ viewController: UIKit.UIViewController, appId: Swift.String, error: Swift.String, data: [Swift.String : Any]?)
+  @objc deinit
+}
+public class SparkAppLifecycleHooksConfig {
+  public var onLaunch: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
+  public var onShow: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
+  public var onClose: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
+  public var onError: ((Swift.String, Swift.String, [Swift.String : Any]?) -> Swift.Void)?
+  public var onResume: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
+  public var onPause: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)?
+  public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class SparkAppLifecycleHooksSubscription {
+  public func unsubscribe()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class SparkAppLifecycleHooksListener {
+  public static func createListener(config: DPSDKKit.SparkAppLifecycleHooksConfig) -> DPSDKKit.SparkAppLifecycleHooksSubscription
+  public static func createListener(onLaunch: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onShow: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onClose: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onError: ((Swift.String, Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onResume: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil, onPause: ((Swift.String, [Swift.String : Any]?) -> Swift.Void)? = nil) -> DPSDKKit.SparkAppLifecycleHooksSubscription
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPAppLifecycleEventSender {
+  public static func sendLifecycleEvent(_ eventName: Swift.String, appId: Swift.String, data: [Swift.String : Any] = [:], error: Swift.String? = nil)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPSDKSharedResources {
+  public static let shared: DPSDKKit.DPSDKSharedResources
+  final public let processPool: WebKit.WKProcessPool
+  final public let dataStore: WebKit.WKWebsiteDataStore
+  public func addSparkAppDomain(_ domain: Swift.String)
+  public func getSparkAppDomains() -> [Swift.String]
+  public func clearSparkAppDomains()
+  public func createWebViewConfiguration() -> WebKit.WKWebViewConfiguration
+  public func clearSharedCache(completion: @escaping () -> Swift.Void = {})
+  public func getCacheInfo(completion: @escaping ([WebKit.WKWebsiteDataRecord]) -> Swift.Void)
+  public func getCacheStatistics(completion: @escaping ([Swift.String : Any]) -> Swift.Void)
+  @objc deinit
+}
+public protocol DPAppJSBridgeBaseDelegate : AnyObject {
+  func evaluateJavaScript(_ script: Swift.String)
+  func evaluateJavaScript(_ script: Swift.String, completionHandler: ((Any?, (any Swift.Error)?) -> Swift.Void)?)
+}
+public typealias DPAppJSBridgeResponseCallback = (Any?) -> Swift.Void
+public typealias DPAppJSBridgeHandler = (Any?, @escaping DPSDKKit.DPAppJSBridgeResponseCallback) -> Swift.Void
+public typealias DPAppJSBridgeMessage = [Swift.String : Any]
+@_hasMissingDesignatedInitializers public class DPAppJSBridgeBase {
+  weak public var delegate: (any DPSDKKit.DPAppJSBridgeBaseDelegate)?
+  public var startupMessageQueue: [DPSDKKit.DPAppJSBridgeMessage]
+  public var responseCallbacks: [Swift.String : DPSDKKit.DPAppJSBridgeResponseCallback]
+  public var messageHandlers: [Swift.String : DPSDKKit.DPAppJSBridgeHandler]
+  public var messageHandler: DPSDKKit.DPAppJSBridgeHandler?
+  public static var isLoggingEnabled: Swift.Bool
+  public static var logMaxLength: Swift.Int
+  public static func enableLogging()
+  public static func setLogMaxLength(_ length: Swift.Int)
+  public func reset()
+  public func sendData(_ data: Any?, responseCallback: DPSDKKit.DPAppJSBridgeResponseCallback?, handlerName: Swift.String?)
+  public func flushMessageQueue(_ messageQueueString: Swift.String?)
+  public func handleMessage(_ message: DPSDKKit.DPAppJSBridgeMessage)
+  public func injectJavaScriptFile()
+  public func forceInjectJavaScriptFile(completion: @escaping (Swift.Bool) -> Swift.Void)
+  public func isDPAppJSBridgeURL(_ url: Foundation.URL) -> Swift.Bool
+  public func isQueueMessageURL(_ url: Foundation.URL) -> Swift.Bool
+  public func isBridgeLoadedURL(_ url: Foundation.URL) -> Swift.Bool
+  public func logUnknownMessage(_ url: Foundation.URL)
+  public func javaScriptCheckCommand() -> Swift.String
+  public func javaScriptFetchQueueCommand() -> Swift.String
+  public func disableJavaScriptAlertBoxSafetyTimeout()
+  @objc deinit
+}
+public struct SparkAppDeepLinkComponents {
+  public let appId: Swift.String
+  public let path: Swift.String?
+  public let params: [Swift.String : Any]
+  public init(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:])
+}
+public enum SparkAppDeepLinkError : Swift.Error {
+  case invalidURL
+  case invalidScheme
+  case invalidHost
+  case missingAppId
+  case appNotFound
+  case invalidParams
+  case configNotLoaded
+  public static func == (a: DPSDKKit.SparkAppDeepLinkError, b: DPSDKKit.SparkAppDeepLinkError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
+public class DPSDKDeepLinkManager {
+  public static let shared: DPSDKKit.DPSDKDeepLinkManager
+  public func registerScheme(_ scheme: Swift.String)
+  public func canHandle(url: Foundation.URL) -> Swift.Bool
+  public func parseURL(_ url: Foundation.URL) -> DPSDKKit.SparkAppDeepLinkComponents?
+  public static func buildURL(scheme: Swift.String, appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any]? = nil) -> Foundation.URL?
+  public func isConfigLoaded() -> Swift.Bool
+  public func getConfigLoadingState() -> DPSDKKit.DPSDKConfigManager.ConfigLoadingState
+  public func ensureConfigLoaded(clientId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
+public class DPSDKTemplateTracker {
+  public static let shared: DPSDKKit.DPSDKTemplateTracker
+  public var isEnabled: Swift.Bool
+  public func trackTemplateDownloadStart(appId: Swift.String, clientId: Swift.String, templateRemoteUrl: Swift.String, version: Swift.String)
+  public func trackTemplateDownloadSuccess(appId: Swift.String, clientId: Swift.String, templateRemoteUrl: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, fileSize: Swift.Int64, downloadTime: Foundation.TimeInterval)
+  public func trackTemplateDownloadFailed(appId: Swift.String, clientId: Swift.String, templateRemoteUrl: Swift.String, version: Swift.String, error: any Swift.Error)
+  public func trackTemplateDownloadProgress(appId: Swift.String, clientId: Swift.String, templateRemoteUrl: Swift.String, version: Swift.String, progress: Swift.Double, downloadedBytes: Swift.Int64, totalBytes: Swift.Int64)
+  public func trackTemplateCacheHit(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String)
+  public func trackTemplateCacheMiss(appId: Swift.String, clientId: Swift.String, version: Swift.String)
+  public func trackTemplateCacheExpired(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String)
+  public func trackTemplateReadStart(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String)
+  public func trackTemplateReadSuccess(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, fileSize: Swift.Int64, readTime: Foundation.TimeInterval)
+  public func trackTemplateReadFailed(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, error: any Swift.Error)
+  public func trackTemplateNotFound(appId: Swift.String, clientId: Swift.String, expectedPath: Foundation.URL, version: Swift.String)
+  public func trackTemplatePreloadStart(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, baseUrl: Swift.String, version: Swift.String)
+  public func trackTemplatePreloadSuccess(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, baseUrl: Swift.String, version: Swift.String, preloadTime: Foundation.TimeInterval, resourceCount: Swift.Int)
+  public func trackTemplatePreloadFailed(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, baseUrl: Swift.String, version: Swift.String, error: any Swift.Error)
+  public func trackTemplateValidateSuccess(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, fileSize: Swift.Int64, isValid: Swift.Bool)
+  public func trackTemplateValidateFailed(appId: Swift.String, clientId: Swift.String, templateLocalPath: Foundation.URL, version: Swift.String, error: any Swift.Error)
+  public func trackTemplateVersionCheck(appId: Swift.String, clientId: Swift.String, version: Swift.String, hasLocalCache: Swift.Bool, needsUpdate: Swift.Bool = false)
+  public func trackTemplateCleanupStart(appId: Swift.String, clientId: Swift.String, reason: Swift.String)
+  public func trackTemplateCleanupComplete(appId: Swift.String, clientId: Swift.String, cleanedCount: Swift.Int, freedSpace: Swift.Int64)
+  public func trackTemplateCleanupFailed(appId: Swift.String, clientId: Swift.String, error: any Swift.Error)
+  @objc deinit
+}
+@available(iOS 13.0, *)
+extension DPSDKKit.DPSDKTemplateTracker {
+  @discardableResult
+  public func beginTrackingDownload(appId: Swift.String, clientId: Swift.String, remoteUrl: Swift.String, version: Swift.String) -> Swift.String
+  public func endTrackingDownload(sessionId: Swift.String, appId: Swift.String, clientId: Swift.String, remoteUrl: Swift.String, localPath: Foundation.URL?, version: Swift.String, success: Swift.Bool, fileSize: Swift.Int64 = 0, downloadTime: Foundation.TimeInterval = 0, error: (any Swift.Error)? = nil)
+  public func trackCacheStatus(appId: Swift.String, clientId: Swift.String, localPath: Foundation.URL?, version: Swift.String, isHit: Swift.Bool)
+}
+@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
+public class DPSDKManager {
+  public static let shared: DPSDKKit.DPSDKManager
+  weak public var currentNavigationController: UIKit.UINavigationController?
+  public func createDPSDK(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], allowWithoutDelegate: Swift.Bool = false, completion: @escaping (DPSDKKit.DPApp?, (any Swift.Error)?) -> Swift.Void)
+  public func getExistingDPSDK(appId: Swift.String) -> DPSDKKit.DPApp?
+  public func closeDPSDK(appId: Swift.String)
+  public func closeAllSparkApps()
+  public func getActiveDPSDK() -> DPSDKKit.DPApp?
+  public func setActiveDPSDK(_ dpApp: DPSDKKit.DPApp?)
+  public func getAllSparkApps() -> [DPSDKKit.DPApp]
+  @objc deinit
+}
+extension DPSDKKit.DPSDKManager {
+  public func openDPSDK(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], from viewController: UIKit.UIViewController, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+  public func preloadDPSDK(appId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+}
+@objc @_hasMissingDesignatedInitializers @available(iOS 13.0, *)
+@_Concurrency.MainActor @preconcurrency public class DPAppViewController : UIKit.UIViewController, UIKit.UIGestureRecognizerDelegate {
+  public enum CreationSource : Swift.String {
+    case open
+    case preOpen
+    case preload
+    public init?(rawValue: Swift.String)
+    @available(iOS 13.0, *)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  @_Concurrency.MainActor @preconcurrency final public let dpApp: DPSDKKit.DPApp
+  @_Concurrency.MainActor @preconcurrency final public let url: Swift.String
+  @_Concurrency.MainActor @preconcurrency final public let creationSource: DPSDKKit.DPAppViewController.CreationSource
+  @_Concurrency.MainActor @preconcurrency final public let debugInstanceID: Swift.String
+  @_Concurrency.MainActor @preconcurrency public var pageTitle: Swift.String? {
+    get
+  }
+  @_Concurrency.MainActor @preconcurrency public var webView: WebKit.WKWebView! {
+    get
+  }
+  @_Concurrency.MainActor @preconcurrency public var jsBridge: DPSDKKit.DPAppJSBridge!
+  @_Concurrency.MainActor @preconcurrency weak public var originalViewController: UIKit.UIViewController?
+  @_Concurrency.MainActor @preconcurrency public var isCreatedViaCreateVC: Swift.Bool
+  @_Concurrency.MainActor @preconcurrency weak public var customDelegate: (any DPSDKKit.DPAppCustomDelegate)?
+  @_Concurrency.MainActor @preconcurrency weak public var lifecycleListener: (any DPSDKKit.DPSDKLifecycleListener)?
+  @_Concurrency.MainActor @preconcurrency public init(dpApp: DPSDKKit.DPApp, url: Swift.String, creationSource: DPSDKKit.DPAppViewController.CreationSource = .open)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public var preferredStatusBarStyle: UIKit.UIStatusBarStyle {
+    @objc get
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @objc deinit
+  @_Concurrency.MainActor @preconcurrency public func refreshPageSettings()
+  @_Concurrency.MainActor @preconcurrency public func closeDPSDK()
+  @_Concurrency.MainActor @preconcurrency public func closeCurrentPage()
+  @_Concurrency.MainActor @preconcurrency public func closeCurrentPage(animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency public func closePage(animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency public func closeMultiplePages(count: Swift.Int)
+  @_Concurrency.MainActor @preconcurrency public func closeAllPrevPages()
+  @_Concurrency.MainActor @preconcurrency public func reload()
+  @_Concurrency.MainActor @preconcurrency public func goBack()
+  @_Concurrency.MainActor @preconcurrency public func goForward()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func observeValue(forKeyPath keyPath: Swift.String?, of object: Any?, change: [Foundation.NSKeyValueChangeKey : Any]?, context: Swift.UnsafeMutableRawPointer?)
+}
+@_hasMissingDesignatedInitializers public class DPSDKPerformanceTracker {
+  public static func startEvent(_ eventName: Swift.String)
+  public static func endEvent(_ eventName: Swift.String) -> Foundation.TimeInterval?
+  public static func trackJSBridgeCall(_ action: Swift.String, closure: () -> Swift.Void)
+  public static func getPendingEvents() -> [Swift.String]
+  public static func reset()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPSDKTemplateDebugger {
+  public static let shared: DPSDKKit.DPSDKTemplateDebugger
+  public func downloadAndSaveDebugTemplate(from url: Swift.String, completion: @escaping (Swift.Result<Foundation.URL, any Swift.Error>) -> Swift.Void)
+  public func downloadTemplateFromDebugUrl(debugUrl: Swift.String, clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Result<Swift.String, any Swift.Error>) -> Swift.Void)
+  public func saveDebugTemplate(htmlContent: Swift.String, clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
+  public func saveHTMLToCache(htmlContent: Swift.String, clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Foundation.URL?) -> Swift.Void)
+  public func readCachedTemplate(clientId: Swift.String, appId: Swift.String, version: Swift.String) -> Swift.String?
+  public func extractBaseUrl(from debugUrl: Swift.String) -> Foundation.URL?
+  public func getAllCachedTemplates() -> [Swift.String]
+  public func clearAllCachedTemplates() -> Swift.Bool
+  public func exportTemplate(clientId: Swift.String, appId: Swift.String, version: Swift.String, to exportPath: Foundation.URL) -> Swift.Bool
+  @objc deinit
+}
+extension DPSDKKit.DPSDKTemplateDebugger {
+  public func displayTemplateInWebView(htmlContent: Swift.String, baseUrl: Foundation.URL?, completion: @escaping (WebKit.WKWebView?) -> Swift.Void)
+  public func debugTemplateFlow(debugUrl: Swift.String, clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Result<WebKit.WKWebView, any Swift.Error>) -> Swift.Void)
+}
+@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
+public class DPAppWebViewPool {
+  public static let shared: DPSDKKit.DPAppWebViewPool
+  @available(iOS 13.0, *)
+  public class PoolConfiguration {
+    public var maxPoolSize: Swift.Int
+    public var preWarmCount: Swift.Int
+    public var cleanupInterval: Swift.Double
+    public var maxIdleTime: Swift.Double
+    public var enableSmartPreWarm: Swift.Bool
+    public init()
+    @objc deinit
+  }
+  public func configure(with config: DPSDKKit.DPAppWebViewPool.PoolConfiguration)
+  public func acquireWebView(for appId: Swift.String) -> WebKit.WKWebView?
+  public func releaseWebView(_ webView: WebKit.WKWebView)
+  public func discardWebView(_ webView: WebKit.WKWebView)
+  public func preWarmPool()
+  public func cleanPool(force: Swift.Bool = false, refill: Swift.Bool = true)
+  public func cleanPool(forAppId appId: Swift.String, force: Swift.Bool = false, refill: Swift.Bool = true)
+  public func getStatistics() -> [Swift.String : Any]
+  public func preWarmWebView(for appId: Swift.String)
+  public func initializeWithDefaults()
+  @objc deinit
+}
+public class DPAppVideoComponent {
+  final public let view: UIKit.UIView
+  public var isPlaying: Swift.Bool {
+    get
+  }
+  public var duration: Foundation.TimeInterval {
+    get
+  }
+  public var currentTime: Foundation.TimeInterval {
+    get
+  }
+  public init(frame: CoreFoundation.CGRect)
+  public func loadVideo(url: Foundation.URL)
+  public func play()
+  public func pause()
+  public func stop()
+  public func seek(to time: Foundation.TimeInterval)
+  public func setVolume(_ volume: Swift.Float)
+  public func setPlaybackRate(_ rate: Swift.Float)
+  public func setMuted(_ muted: Swift.Bool)
+  public func cleanup()
+  @objc deinit
+}
+public enum ResourcePrefetchPriority : Swift.Int, Swift.Comparable {
+  case low
+  case normal
+  case high
+  case critical
+  public static func < (lhs: DPSDKKit.ResourcePrefetchPriority, rhs: DPSDKKit.ResourcePrefetchPriority) -> Swift.Bool
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class DPSDKResourcePrefetcher {
+  public static let shared: DPSDKKit.DPSDKResourcePrefetcher
+  @objc deinit
+  public func prefetchResources(from config: [Swift.String : Any], appId: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void = { _ in })
+  public func prefetchURLs(_ urls: [Swift.String], appId: Swift.String, priority: DPSDKKit.ResourcePrefetchPriority = .normal, completion: @escaping (Swift.Bool) -> Swift.Void = { _ in })
+  public func isPrefetchComplete(for appId: Swift.String) -> Swift.Bool
+  public func cleanup(keepHomeCache: Swift.Bool = true)
+  public func getActiveWebViewCount() -> Swift.Int
+  public func getHomeCacheWebView(for appId: Swift.String) -> WebKit.WKWebView?
+  public func consumeHomeCacheWebView(for appId: Swift.String) -> WebKit.WKWebView?
+  public func prefetchHomeURLsWithCache(_ urls: [Swift.String], appId: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
+}
+public class DPSDKConfig {
+  final public let clientId: Swift.String
+  public var theme: DPSDKKit.Theme
+  public var staging: Swift.Bool
+  public var sandboxMode: Swift.Bool
+  public var permissionsPage: Swift.Bool
+  public var showClearCache: Swift.Bool
+  public var showAboutPage: Swift.Bool
+  public var language: Swift.String
+  public var sparkappSettingsExpirationTime: Swift.Int
+  public var userId: Swift.String? {
+    get
+  }
+  public var enablePerformanceMonitoring: Swift.Bool
+  public var enableLogging: Swift.Bool {
+    get
+    set
+  }
+  public var cacheStrategy: DPSDKKit.CacheStrategy
+  public var enableAdvancedCache: Swift.Bool
+  public var webViewPoolSize: Swift.Int
+  public var webViewPreWarmCount: Swift.Int
+  public var httpCacheMemorySize: Swift.Int
+  public var httpCacheDiskSize: Swift.Int
+  public var enableBehaviorPrediction: Swift.Bool
+  public var enableBatteryOptimization: Swift.Bool
+  public var enableNetworkAwareness: Swift.Bool
+  public var navigationTitleFontName: Swift.String?
+  public var offlinePackFileIndexUrl: Swift.String?
+  public var navigationTitleFontSize: CoreFoundation.CGFloat
+  public var navigationTitleFontWeight: UIKit.UIFont.Weight
+  public init(clientId: Swift.String)
+  public init(clientId: Swift.String, theme: DPSDKKit.Theme)
+  public init(clientId: Swift.String, theme: DPSDKKit.Theme = .system, cacheStrategy: DPSDKKit.CacheStrategy = .withHomePage)
+  public func setUserIdentifier(_ id: Swift.String)
+  public func getIntegrityValidationResult() -> Swift.Bool
+  public func getIntegrityValidationDetails() -> [Swift.String : Any]
+  @objc deinit
+}
+public class DPAppConfiguration {
+  public var saveState: Swift.Bool
+  public var urlSuffix: Swift.String
+  public var pageAnimation: DPSDKKit.PageAnimation
+  public var hideNavigationBar: Swift.Bool {
+    get
+    set
+  }
+  public var extendToStatusBar: Swift.Bool {
+    get
+    set
+  }
+  public var showBackButton: Swift.Bool {
+    get
+    set
+  }
+  public var showCloseButton: Swift.Bool {
+    get
+    set
+  }
+  public var closePrevPage: Swift.Bool {
+    get
+    set
+  }
+  public var closeAllPrevPages: Swift.Bool {
+    get
+    set
+  }
+  public var disableHistoryBack: Swift.Int {
+    get
+    set
+  }
+  public var disableBackGesture: Swift.Int {
+    get
+    set
+  }
+  public var showCloseMiniAppIcon: Swift.Int {
+    get
+    set
+  }
+  public var headerTextColor: Swift.String?
+  public var headerBgColor: Swift.String?
+  public var statusBarBgColor: Swift.String?
+  public var statusBarTextColor: Swift.String?
+  public var bottomNavBarTextColor: Swift.String?
+  public var bottomNavBarBgColor: Swift.String?
+  public init(theme: DPSDKKit.Theme)
+  public init(color: DPSDKKit.DPSDKColor)
+  public init(color: DPSDKKit.DPSDKColor, theme: DPSDKKit.Theme)
+  public init()
+  public func setColor(_ color: DPSDKKit.DPSDKColor)
+  public func setTheme(_ theme: DPSDKKit.Theme)
+  public func setExtraParams(_ extraParams: [Swift.String : Swift.String]?)
+  public func setCustomActionMenuItemImage(_ image: UIKit.UIImage?)
+  public func enableSplash(_ isSplashEnabled: Swift.Bool)
+  public var theme: DPSDKKit.Theme? {
+    get
+  }
+  public var color: DPSDKKit.DPSDKColor? {
+    get
+  }
+  public var extraParams: [Swift.String : Swift.String]? {
+    get
+  }
+  public var customActionMenuItemImage: UIKit.UIImage? {
+    get
+  }
+  public var isSplashEnabled: Swift.Bool {
+    get
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class DPSDKPagePreOpenManager {
+  public static let shared: DPSDKKit.DPSDKPagePreOpenManager
+  final public func preOpen(appId: Swift.String, path: Swift.String?, params: [Swift.String : Any] = [:], keepWarmCount: Swift.Int = 1, keepAliveAfterConsume: Swift.Bool = false, completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  final public func preOpen(url: Swift.String, keepWarmCount: Swift.Int = 1, completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  final public func consumePreOpenedViewController(appId: Swift.String, expectedURL: Swift.String) -> DPSDKKit.DPAppViewController?
+  final public func consumePreOpenedViewController(url: Swift.String) -> DPSDKKit.DPAppViewController?
+  final public func cleanup(appId: Swift.String? = nil)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPSDKConfigCache {
+  public static func saveConfig(_ configData: Foundation.Data, forClientId clientId: Swift.String) -> Swift.Bool
+  public static func loadConfig(forClientId clientId: Swift.String) -> Foundation.Data?
+  public static func isCacheValid(forClientId clientId: Swift.String) -> Swift.Bool
+  public static func deleteCache(forClientId clientId: Swift.String) -> Swift.Bool
+  public static func clearAllCaches() -> Swift.Bool
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPSDKPerformanceMonitor {
+  public static let shared: DPSDKKit.DPSDKPerformanceMonitor
+  @_hasMissingDesignatedInitializers public class PerformanceMetrics {
+    public var sdkInitTime: Swift.Double
+    public var configLoadTime: Swift.Double
+    public var webViewPoolHitRate: Swift.Double
+    public var httpCacheHitRate: Swift.Double
+    public var totalBytesSaved: Swift.Int64
+    public var appOpenTimes: [Swift.String : Swift.Double]
+    public var prefetchSuccessRate: Swift.Double
+    public func toDictionary() -> [Swift.String : Any]
+    @objc deinit
+  }
+  public func startMonitoring()
+  public func stopMonitoring()
+  public func recordInitializationTime(_ time: Swift.Double)
+  public func recordConfigLoadTime(_ time: Swift.Double)
+  public func startTiming(for key: Swift.String)
+  public func endTiming(for key: Swift.String) -> Swift.Double
+  public func getCurrentMetrics() -> DPSDKKit.DPSDKPerformanceMonitor.PerformanceMetrics
+  public func getPerformanceReport() -> Swift.String
+  public func getPerformanceSummary() -> [Swift.String : Any]
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPSDKResources {
+  public static var resourceBundle: Foundation.Bundle? {
+    get
+  }
+  public static func image(named name: Swift.String) -> UIKit.UIImage?
+  public static func createBackButtonImage() -> UIKit.UIImage?
+  public static func createCloseButtonImage() -> UIKit.UIImage?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPAppWebViewTemplate {
+  public enum TemplateType {
+    case standard
+    case performance
+    case secure
+    case custom
+    public static func == (a: DPSDKKit.DPAppWebViewTemplate.TemplateType, b: DPSDKKit.DPAppWebViewTemplate.TemplateType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func createWebView(type: DPSDKKit.DPAppWebViewTemplate.TemplateType = .standard, customConfig: [Swift.String : Any]? = nil) -> WebKit.WKWebView
+  public static func createConfiguration(type: DPSDKKit.DPAppWebViewTemplate.TemplateType = .standard, customConfig: [Swift.String : Any]? = nil) -> WebKit.WKWebViewConfiguration
+  public static func getRecommendedSettings(for type: DPSDKKit.DPAppWebViewTemplate.TemplateType) -> [Swift.String : Any]
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPAppProcessPoolManager {
+  public static let shared: DPSDKKit.DPAppProcessPoolManager
+  final public let sharedProcessPool: WebKit.WKProcessPool
+  public func createIsolatedProcessPool() -> WebKit.WKProcessPool
+  @objc deinit
+}
+public class SparkAppWebViewConfigBuilder {
+  public init()
+  public func setAllowsInlineMediaPlayback(_ allows: Swift.Bool) -> DPSDKKit.SparkAppWebViewConfigBuilder
+  public func setJavaScriptEnabled(_ enabled: Swift.Bool) -> DPSDKKit.SparkAppWebViewConfigBuilder
+  public func setProcessPool(_ pool: WebKit.WKProcessPool?) -> DPSDKKit.SparkAppWebViewConfigBuilder
+  public func addUserScript(_ script: Swift.String, injectionTime: WebKit.WKUserScriptInjectionTime = .atDocumentStart) -> DPSDKKit.SparkAppWebViewConfigBuilder
+  public func build() -> WebKit.WKWebViewConfiguration
+  public func buildWebView() -> WebKit.WKWebView
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DPSDKAdvancedCacheManager {
+  public static let shared: DPSDKKit.DPSDKAdvancedCacheManager
+  public class AdvancedCacheConfiguration {
+    public var webViewPoolConfig: DPSDKKit.DPAppWebViewPool.PoolConfiguration
+    final public let httpCacheConfig: DPSDKKit.DPSDKHTTPCacheManager.CacheConfiguration
+    final public let dataLayerConfig: DPSDKKit.DPSDKDataLayerCache.DataCacheConfiguration
+    public var enableAllFeatures: Swift.Bool
+    public var enableBatteryOptimization: Swift.Bool
+    public var enableNetworkAwareness: Swift.Bool
+    public var enableLegacyPrefetchIntegration: Swift.Bool
+    public var preloadPagesPerApp: Swift.Int
+    public var maxConcurrentPreloads: Swift.Int
+    public var enableDataPrefetch: Swift.Bool
+    public init()
+    @objc deinit
+  }
+  public var initialized: Swift.Bool {
+    get
+  }
+  public func initialize(with config: DPSDKKit.DPSDKAdvancedCacheManager.AdvancedCacheConfiguration? = nil)
+  public func prepareResources(for appId: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
+  public func getOptimizedWebView(for appId: Swift.String) -> WebKit.WKWebView?
+  public func releaseWebView(_ webView: WebKit.WKWebView)
+  public func getCacheStatistics() -> [Swift.String : Any]
+  public func clearCache(completion: @escaping (Swift.Bool) -> Swift.Void)
+  @objc deinit
+}
+extension DPSDKKit.DPSDKAdvancedCacheManager {
+  public func shouldUseLegacyPrefetch(for appId: Swift.String) -> Swift.Bool
+}
+extension DPSDKKit.DPAppViewController {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func gestureRecognizer(_ gestureRecognizer: UIKit.UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIKit.UIGestureRecognizer) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIKit.UIGestureRecognizer) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers public class DPAppJSBridgeJS {
+  public static func bridgeJavaScript() -> Swift.String
+  public static func checkCommand() -> Swift.String
+  public static func fetchQueueCommand() -> Swift.String
+  @objc deinit
+}
 public struct DPSDKServiceInfo {
   public let appId: Swift.String
   public let name: Swift.String
@@ -1719,43 +1098,627 @@ public class DPSDKData {
   public init()
   @objc deinit
 }
-@available(iOS 13.0, *)
-extension DPSDKKit.DPSDKHTTPCacheManager.CachePolicy : Swift.Equatable {}
-@available(iOS 13.0, *)
-extension DPSDKKit.DPSDKHTTPCacheManager.CachePolicy : Swift.Hashable {}
-extension DPSDKKit.PrefetchPriority : Swift.Equatable {}
-extension DPSDKKit.PrefetchPriority : Swift.Hashable {}
-extension DPSDKKit.ConfigSource : Swift.Equatable {}
-extension DPSDKKit.ConfigSource : Swift.Hashable {}
-extension DPSDKKit.ConfigSource : Swift.RawRepresentable {}
-extension DPSDKKit.DPSDKPreconditionChecker.PreconditionError : Swift.Equatable {}
-extension DPSDKKit.DPSDKPreconditionChecker.PreconditionError : Swift.Hashable {}
-extension DPSDKKit.DPAppWebViewTemplate.TemplateType : Swift.Equatable {}
-extension DPSDKKit.DPAppWebViewTemplate.TemplateType : Swift.Hashable {}
-extension DPSDKKit.SparkAppBackType : Swift.Equatable {}
-extension DPSDKKit.SparkAppBackType : Swift.Hashable {}
-extension DPSDKKit.SparkAppBackType : Swift.RawRepresentable {}
-extension DPSDKKit.SparkAppNavigationActionType : Swift.Equatable {}
-extension DPSDKKit.SparkAppNavigationActionType : Swift.Hashable {}
-extension DPSDKKit.SparkAppNavigationActionType : Swift.RawRepresentable {}
-extension DPSDKKit.SparkAppNavigationBackAction : Swift.Equatable {}
-extension DPSDKKit.SparkAppNavigationBackAction : Swift.Hashable {}
-extension DPSDKKit.ResourcePrefetchPriority : Swift.Hashable {}
-extension DPSDKKit.ResourcePrefetchPriority : Swift.RawRepresentable {}
-extension DPSDKKit.SparkAppDeepLinkError : Swift.Equatable {}
-extension DPSDKKit.SparkAppDeepLinkError : Swift.Hashable {}
-extension DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate : Swift.Equatable {}
-extension DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate : Swift.Hashable {}
-extension DPSDKKit.DPSDKDataLayerCache.CacheType : Swift.Equatable {}
-extension DPSDKKit.DPSDKDataLayerCache.CacheType : Swift.Hashable {}
-extension DPSDKKit.DPSDKDataLayerCache.PrefetchPriority : Swift.Equatable {}
-extension DPSDKKit.DPSDKDataLayerCache.PrefetchPriority : Swift.Hashable {}
-@available(iOS 13.0, *)
-extension DPSDKKit.DPAppViewController.CreationSource : Swift.Equatable {}
-@available(iOS 13.0, *)
-extension DPSDKKit.DPAppViewController.CreationSource : Swift.Hashable {}
-@available(iOS 13.0, *)
-extension DPSDKKit.DPAppViewController.CreationSource : Swift.RawRepresentable {}
+extension DPSDKKit.DPAppViewController {
+  @_Concurrency.MainActor @preconcurrency public func triggerLifecycleEvent(_ lifecycleName: Swift.String, data: [Swift.String : Any]?)
+  @_Concurrency.MainActor @preconcurrency public func triggerErrorEvent(_ error: Swift.String)
+  @_Concurrency.MainActor @preconcurrency public func pushMessageToH5(eventType: Swift.String, data: [Swift.String : Any])
+  @_Concurrency.MainActor @preconcurrency public func pushLifecycleMessageToH5(lifecycleName: Swift.String, data: [Swift.String : Any]? = nil)
+  @_Concurrency.MainActor @preconcurrency public func pushNetworkStatusUpdate(isConnected: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency public func pushAppStateUpdate(state: Swift.String)
+  @_Concurrency.MainActor @preconcurrency public func pushCustomEvent(eventType: Swift.String, payload: [Swift.String : Any])
+  @_Concurrency.MainActor @preconcurrency public func testURLChangeDetection()
+  @_Concurrency.MainActor @preconcurrency public func testSpecificURLPathMatching(_ testURL: Swift.String) -> Swift.String?
+}
+@_hasMissingDesignatedInitializers public class DPSDKSimpleConfigManager {
+  public static let shared: DPSDKKit.DPSDKSimpleConfigManager
+  public enum ConfigTemplate {
+    case basic
+    case performance
+    case lowMemory
+    case highEnd
+    case custom
+    public static func == (a: DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate, b: DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public func useTemplate(_ template: DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate) -> DPSDKKit.DPSDKConfig
+  public func autoDetectAndConfigure() -> DPSDKKit.DPSDKConfig
+  public func setOverride(key: Swift.String, value: Any)
+  public func setPageConfig(path: Swift.String, config: [Swift.String : Any])
+  public func getPageConfig(for path: Swift.String) -> [Swift.String : Any]
+  public func applyBestPractices(to config: DPSDKKit.DPSDKConfig)
+  @objc deinit
+}
+@objc @available(iOS 13.0, *)
+public class DPAppCustomEvent : ObjectiveC.NSObject {
+  final public let type: Swift.String
+  final public let payload: [Swift.String : Any]?
+  final public let timestamp: Foundation.Date
+  final public let appId: Swift.String
+  public var debugSource: Swift.String?
+  public var debugInstanceID: Swift.String?
+  public var debugViewURL: Swift.String?
+  public init(type: Swift.String, payload: [Swift.String : Any]? = nil, appId: Swift.String)
+  public var debugContextDescription: Swift.String {
+    get
+  }
+  @objc deinit
+}
+@objc @available(iOS 13.0, *)
+public class SparkAppPaymentEvent : ObjectiveC.NSObject {
+  final public let eventType: Swift.String
+  final public let amount: Swift.Double
+  final public let currency: Swift.String
+  final public let paymentCardId: Swift.String?
+  final public let productType: Swift.String?
+  final public let appId: Swift.String
+  final public let prebookingToken: Swift.String?
+  final public let cardType: Swift.String?
+  final public let payCardLast4: Swift.String?
+  public init(eventType: Swift.String, amount: Swift.Double = 0.0, currency: Swift.String = "USD", paymentCardId: Swift.String? = nil, productType: Swift.String? = nil, appId: Swift.String, prebookingToken: Swift.String? = nil, cardType: Swift.String? = nil, payCardLast4: Swift.String? = nil)
+  @objc deinit
+}
+@objc @available(iOS 13.0, *)
+public class DPAppLifecycleEvent : ObjectiveC.NSObject {
+  final public let lifecycleName: Swift.String
+  final public let appId: Swift.String
+  final public let data: [Swift.String : Any]?
+  final public let timestamp: Foundation.Date
+  final public let pageName: Swift.String?
+  final public let reportPageName: Swift.String?
+  public init(lifecycleName: Swift.String, appId: Swift.String, data: [Swift.String : Any]? = nil, pageName: Swift.String? = nil, reportPageName: Swift.String? = nil)
+  public func getReportPageNameWithFallback() -> Swift.String?
+  @objc deinit
+}
+@objc @available(iOS 13.0, *)
+public class DPAppResponse : ObjectiveC.NSObject {
+  final public let statusCode: Swift.Int
+  final public let errCode: Swift.String?
+  final public let msg: Swift.String?
+  final public let data: [Swift.String : Any]
+  public init(statusCode: Swift.Int, errCode: Swift.String? = nil, msg: Swift.String? = nil, data: [Swift.String : Any]? = nil)
+  public static func success(data: [Swift.String : Any] = [:]) -> DPSDKKit.DPAppResponse
+  public static func failure(errCode: Swift.String, msg: Swift.String, data: [Swift.String : Any] = [:]) -> DPSDKKit.DPAppResponse
+  public var isSuccess: Swift.Bool {
+    get
+  }
+  public func toDictionary() -> [Swift.String : Any]
+  public func toJSONString() -> Swift.String
+  public func toJSONString(excludeJSONStringFields: [Swift.String] = []) -> Swift.String
+  @objc deinit
+}
+public protocol DPAppCustomDelegate : AnyObject {
+  func dpAppDidLaunch(_ event: DPSDKKit.DPAppLifecycleEvent)
+  func dpAppDidShow(_ event: DPSDKKit.DPAppLifecycleEvent)
+  func dpAppDidHide(_ event: DPSDKKit.DPAppLifecycleEvent)
+  func dpAppDidPause(_ event: DPSDKKit.DPAppLifecycleEvent)
+  func dpAppDidResume(_ event: DPSDKKit.DPAppLifecycleEvent)
+  func dpAppDidClose(_ event: DPSDKKit.DPAppLifecycleEvent)
+  func dpAppDidError(_ event: DPSDKKit.DPAppLifecycleEvent, error: Swift.String)
+  func dpAppHandleCustomEvent(_ event: DPSDKKit.DPAppCustomEvent, completion: @escaping (DPSDKKit.DPAppResponse) -> Swift.Void)
+}
+extension DPSDKKit.DPAppCustomDelegate {
+  public func dpAppDidLaunch(_ event: DPSDKKit.DPAppLifecycleEvent)
+  public func dpAppDidShow(_ event: DPSDKKit.DPAppLifecycleEvent)
+  public func dpAppDidHide(_ event: DPSDKKit.DPAppLifecycleEvent)
+  public func dpAppDidPause(_ event: DPSDKKit.DPAppLifecycleEvent)
+  public func dpAppDidResume(_ event: DPSDKKit.DPAppLifecycleEvent)
+  public func dpAppDidClose(_ event: DPSDKKit.DPAppLifecycleEvent)
+  public func dpAppDidError(_ event: DPSDKKit.DPAppLifecycleEvent, error: Swift.String)
+}
+@_hasMissingDesignatedInitializers public class DPSDKPrefetchManager {
+  public static let shared: DPSDKKit.DPSDKPrefetchManager
+  public func prefetchFromConfigs(_ configs: [Swift.String : Any], completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func prefetchDPSDK(appId: Swift.String, config: [Swift.String : Any], completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func isPrefetchComplete(for appId: Swift.String) -> Swift.Bool
+  public func cleanup()
+  public func processDPSDKConfigs(from configs: [Swift.String : Any])
+  @objc deinit
+}
+extension DPSDKKit.DPSDKPrefetchManager {
+  public func prefetchCurrentClientConfig(completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func ensurePrefetchForApp(_ appId: Swift.String, completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func debugPrefetchURL(_ url: Swift.String, appId: Swift.String, completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func getDebugInfo() -> [Swift.String : Any]
+  public func getHomepageURL(for appId: Swift.String) -> Swift.String?
+  @discardableResult
+  public func loadCachedTemplate(for appId: Swift.String, in webView: Any, completion: @escaping (Swift.Bool) -> Swift.Void = { _ in }) -> Swift.Bool
+  public func hasCachedTemplate(for appId: Swift.String) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers public class DPSDKTemplateManager {
+  public static let shared: DPSDKKit.DPSDKTemplateManager
+  public func downloadTemplates(prefetchUrls: [Swift.String], clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
+  public func getCachedTemplatePath(clientId: Swift.String, appId: Swift.String, version: Swift.String) -> Foundation.URL?
+  public func hasCachedTemplate(clientId: Swift.String, appId: Swift.String, version: Swift.String) -> Swift.Bool
+  public func cleanupExpiredTemplates(olderThan: Foundation.Date = Date().addingTimeInterval(-7 * 24 * 60 * 60))
+  @objc deinit
+}
+extension DPSDKKit.DPSDKTemplateManager {
+  public func getDebugInfo() -> [Swift.String : Any]
+  public func redownloadTemplates(prefetchUrls: [Swift.String], clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Bool) -> Swift.Void)
+  public func validateTemplateUpdate(prefetchUrls: [Swift.String], clientId: Swift.String, appId: Swift.String, version: Swift.String, completion: @escaping (Swift.Bool, Swift.Bool) -> Swift.Void)
+  public func getTemplateInfo(clientId: Swift.String, appId: Swift.String, version: Swift.String) -> [Swift.String : Any]?
+}
+public struct DPAppJSBridgeHandlers {
+  public var onCallback: (([Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
+  public var onKeyword: (([Swift.String : Any]) -> Swift.Void)?
+  public var onCustomerEvent: ((Swift.String, [Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
+  public var onPaymentInfoRequest: ((@escaping (Any) -> Swift.Void) -> Swift.Void)?
+  public var onChangePaymentCard: (([Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
+  public var onAddPaymentCard: (([Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
+  public var onPaymentRequest: (([Swift.String : Any], @escaping (Any) -> Swift.Void) -> Swift.Void)?
+  public init()
+}
+@objc @available(iOS 13.0, *)
+public class DPAppJSBridge : ObjectiveC.NSObject {
+  public var handlers: DPSDKKit.DPAppJSBridgeHandlers
+  public static var enableLogging: Swift.Bool {
+    get
+    set
+  }
+  weak public var webView: WebKit.WKWebView? {
+    get
+    set
+  }
+  public typealias Callback = (Any?) -> Swift.Void
+  public init(webView: WebKit.WKWebView)
+  @objc deinit
+  public func setWebViewDelegate(_ delegate: (any WebKit.WKNavigationDelegate)?)
+  public func callHandler(_ handlerName: Swift.String, data: Any? = nil, responseCallback: DPSDKKit.DPAppJSBridgeResponseCallback? = nil)
+  public func registerHandler(_ handlerName: Swift.String, handler: @escaping (Any?, @escaping (Any?) -> Swift.Void) -> Swift.Void)
+  public func removeHandler(_ handlerName: Swift.String)
+  public func reset()
+  public func disableJavaScriptAlertBoxSafetyTimeout()
+  public func injectBridge()
+  public func injectBridgeWithValidation(completion: @escaping (Swift.Bool) -> Swift.Void)
+  public func checkBridgeLoaded(completion: @escaping (Swift.Bool) -> Swift.Void)
+  public func injectJavaScript(_ script: Swift.String)
+  public static func enableBridgeLogging()
+}
+extension DPSDKKit.DPAppJSBridge : DPSDKKit.DPAppJSBridgeBaseDelegate {
+  public func evaluateJavaScript(_ script: Swift.String)
+  public func evaluateJavaScript(_ script: Swift.String, completionHandler: ((Any?, (any Swift.Error)?) -> Swift.Void)?)
+}
+extension DPSDKKit.DPAppJSBridge : WebKit.WKScriptMessageHandler {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+}
+extension DPSDKKit.DPAppJSBridge : WebKit.WKNavigationDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFinish navigation: WebKit.WKNavigation!)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didStartProvisionalNavigation navigation: WebKit.WKNavigation!)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFailProvisionalNavigation navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationResponse: WebKit.WKNavigationResponse, decisionHandler: @escaping (WebKit.WKNavigationResponsePolicy) -> Swift.Void)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WebKit.WKNavigation!)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didReceive challenge: Foundation.URLAuthenticationChallenge, completionHandler: @escaping (Foundation.URLSession.AuthChallengeDisposition, Foundation.URLCredential?) -> Swift.Void)
+}
+@_hasMissingDesignatedInitializers public class DPSDKPageNameGenerator {
+  public static func generatePageName(appId: Swift.String, path: Swift.String?) -> Swift.String
+  public static func extractPath(from url: Swift.String?) -> Swift.String?
+  public static func generatePageNameFromDeepLink(appId: Swift.String, path: Swift.String?, params: [Swift.String : Any]?) -> Swift.String
+  public static func getLocalizedPageName(appId: Swift.String, path: Swift.String?) -> Swift.String?
+  public static func isValidPageName(_ pageName: Swift.String) -> Swift.Bool
+  public static func extractAppId(from pageName: Swift.String) -> Swift.String?
+  public static func extractPath(from pageName: Swift.String) -> Swift.String?
+  @objc deinit
+}
+extension DPSDKKit.DPSDKPageNameGenerator {
+  public static func generatePageAnalytics(appId: Swift.String, path: Swift.String?) -> [Swift.String : Any]
+}
+@_hasMissingDesignatedInitializers public class DPSDKSimpleEncryption {
+  public static func getOrCreateEncryptionKey() -> Foundation.Data?
+  public static func clearEncryptionKey()
+  public static func hasEncryptionKey() -> Swift.Bool
+  public static func getKeyInfo() -> [Swift.String : Any]
+  @objc deinit
+}
+public struct SparkAppEncryptionConfig {
+  public static func getCurrentEncryptionKey() -> Foundation.Data?
+  public static func getConfigInfo() -> [Swift.String : Any]
+}
+@_hasMissingDesignatedInitializers public class DPSDKLifecycleObserver {
+  public static let shared: DPSDKKit.DPSDKLifecycleObserver
+  public var autoConfigPreload: Swift.Bool
+  public var clientId: Swift.String?
+  public func startObserving()
+  public func stopObserving()
+  public func triggerConfigPreload(force: Swift.Bool = false)
+  public func setClientId(_ clientId: Swift.String)
+  public func configure(clientId: Swift.String, autoPreload: Swift.Bool = true, minInterval: Foundation.TimeInterval = 30.0)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
+public class DPSDKHTTPCacheManager {
+  public static let shared: DPSDKKit.DPSDKHTTPCacheManager
+  public enum CachePolicy {
+    case useProtocolCachePolicy
+    case reloadIgnoringLocalCache
+    case returnCacheDataElseLoad
+    case returnCacheDataDontLoad
+    public static func == (a: DPSDKKit.DPSDKHTTPCacheManager.CachePolicy, b: DPSDKKit.DPSDKHTTPCacheManager.CachePolicy) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @available(iOS 13.0, *)
+  public class CacheConfiguration {
+    public var memoryCapacity: Swift.Int
+    public var diskCapacity: Swift.Int
+    public var cacheExpiration: Swift.Double
+    public var enableSmartCache: Swift.Bool
+    public var whitelistDomains: [Swift.String]
+    public var blacklistDomains: [Swift.String]
+    public init()
+    @objc deinit
+  }
+  public func configure(_ config: DPSDKKit.DPSDKHTTPCacheManager.CacheConfiguration)
+  public func prefetchURLs(_ urls: [Swift.String], priority: DPSDKKit.PrefetchPriority = .normal)
+  public func prefetchURL(_ urlString: Swift.String, priority: DPSDKKit.PrefetchPriority = .normal)
+  public func clearCache(completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public func getCacheSize(completion: @escaping (Swift.Int64) -> Swift.Void)
+  public func getStatistics() -> [Swift.String : Any]
+  public func configureWebView(_ webView: WebKit.WKWebView)
+  @objc deinit
+}
+public enum PrefetchPriority {
+  case high
+  case normal
+  case low
+  public static func == (a: DPSDKKit.PrefetchPriority, b: DPSDKKit.PrefetchPriority) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class DPSDKPreconditionChecker {
+  public enum PreconditionError : Swift.Error {
+    case sdkNotInitialized
+    case configNotLoaded
+    case noNetworkConnection
+    case delegateNotSet
+    case appConfigNotFound
+    case invalidURL
+    case webViewCreationFailed
+    public static func == (a: DPSDKKit.DPSDKPreconditionChecker.PreconditionError, b: DPSDKKit.DPSDKPreconditionChecker.PreconditionError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func checkSDKInitialized(showAlert: Swift.Bool = true) -> Swift.Bool
+  public static func checkConfigLoaded(clientId: Swift.String? = nil, showAlert: Swift.Bool = true) -> Swift.Bool
+  public static func checkNetworkConnection(showAlert: Swift.Bool = true) -> Swift.Bool
+  public static func checkDelegateSet(showAlert: Swift.Bool = true) -> Swift.Bool
+  public static func checkAppConfig(appId: Swift.String, showAlert: Swift.Bool = true) -> Swift.Bool
+  public static func ensureAppConfig(appId: Swift.String, autoReload: Swift.Bool = true, showAlert: Swift.Bool = true, completion: @escaping (Swift.Bool) -> Swift.Void)
+  public static func performFullCheck(appId: Swift.String? = nil, showAlert: Swift.Bool = true) -> (success: Swift.Bool, errors: [DPSDKKit.DPSDKPreconditionChecker.PreconditionError])
+  @objc deinit
+}
+public enum SparkAppBackType : Swift.String, Swift.CaseIterable {
+  case gesture
+  case normal
+  case javascript
+  case system
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [DPSDKKit.SparkAppBackType]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [DPSDKKit.SparkAppBackType] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SparkAppNavigationActionType : Swift.String, Swift.CaseIterable {
+  case back
+  case close
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [DPSDKKit.SparkAppNavigationActionType]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [DPSDKKit.SparkAppNavigationActionType] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct SparkAppPageParams {
+  public let url: Swift.String?
+  public let path: Swift.String?
+  public let appId: Swift.String
+  public let queryParams: [Swift.String : Swift.String]
+  public let additionalData: [Swift.String : Any]
+  public let backType: DPSDKKit.SparkAppBackType
+  public let navigationAction: DPSDKKit.SparkAppNavigationActionType
+  public init(url: Swift.String?, path: Swift.String?, appId: Swift.String, queryParams: [Swift.String : Swift.String], additionalData: [Swift.String : Any], backType: DPSDKKit.SparkAppBackType = .normal, navigationAction: DPSDKKit.SparkAppNavigationActionType = .back)
+}
+public enum SparkAppNavigationBackAction {
+  case goBack
+  case closePage
+  case ignore
+  public static func == (a: DPSDKKit.SparkAppNavigationBackAction, b: DPSDKKit.SparkAppNavigationBackAction) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public typealias SparkAppNavigationBackAsyncHandler = (DPSDKKit.SparkAppPageParams, @escaping (DPSDKKit.SparkAppNavigationBackAction) -> Swift.Void) -> Swift.Void
+public typealias SparkAppNavigationBackSyncHandler = (DPSDKKit.SparkAppPageParams) -> DPSDKKit.SparkAppNavigationBackAction
+@_hasMissingDesignatedInitializers @available(iOS 13.0, *)
+public class SparkAppNavigationBackManager {
+  public static let shared: DPSDKKit.SparkAppNavigationBackManager
+  public func registerGlobalAsyncInterceptor(handler: @escaping DPSDKKit.SparkAppNavigationBackAsyncHandler)
+  public func clearGlobalAsyncInterceptor()
+  public func shouldIntercept(pageParams: DPSDKKit.SparkAppPageParams) -> DPSDKKit.SparkAppNavigationBackAction?
+  public func shouldInterceptAsync(pageParams: DPSDKKit.SparkAppPageParams, completion: @escaping (DPSDKKit.SparkAppNavigationBackAction?) -> Swift.Void)
+  public func hasGlobalAsyncInterceptor() -> Swift.Bool
+  public func shouldInterceptGlobalAsync(pageParams: DPSDKKit.SparkAppPageParams) -> DPSDKKit.SparkAppNavigationBackAction?
+  @objc deinit
+}
+public func extractPageParameters(from webView: WebKit.WKWebView?, appId: Swift.String, additionalData: [Swift.String : Any] = [:]) -> DPSDKKit.SparkAppPageParams
+@_hasMissingDesignatedInitializers public class DPSDKCacheFlowLogger {
+  public static var isEnabled: Swift.Bool
+  public static func startSession(clientId: Swift.String)
+  public static func endSession()
+  public static func logAppStartup()
+  public static func logEvent(step: Swift.String, action: Swift.String, details: Swift.String = "")
+  public static func logTapEvent(action: Swift.String, details: Swift.String = "")
+  public static func logSDKInitialization()
+  public static func logMemoryCacheCheck(found: Swift.Bool)
+  public static func logLocalCacheCheck(clientId: Swift.String, exists: Swift.Bool, age: Foundation.TimeInterval?)
+  public static func logCacheValidation(isValid: Swift.Bool, age: Foundation.TimeInterval, validityDuration: Foundation.TimeInterval)
+  public static func logNetworkConfigFetch(clientId: Swift.String, isBackground: Swift.Bool = false)
+  public static func logConfigLoadComplete(success: Swift.Bool, appCount: Swift.Int = 0)
+  public static func logPrefetchUrlsParsing(appId: Swift.String, urlCount: Swift.Int)
+  public static func logHomepageUrlIdentification(appId: Swift.String, homepageUrl: Swift.String?, found: Swift.Bool)
+  public static func logHTTPCacheManagerInit(memorySize: Swift.Int, diskSize: Swift.Int, expiration: Foundation.TimeInterval)
+  public static func logURLPrefetch(url: Swift.String, priority: Swift.String, cached: Swift.Bool)
+  public static func logResourceDownloadAndCache(url: Swift.String, success: Swift.Bool, resourceCount: Swift.Int = 0)
+  public static func logWaitingForUser()
+  public static func logUserOpenDPSDK(appId: Swift.String, path: Swift.String)
+  public static func logViewControllerCreation(appId: Swift.String, path: Swift.String)
+  public static func logWebViewCacheConfiguration()
+  public static func logURLTypeAndCacheStrategy(url: Swift.String, urlType: Swift.String, cacheStrategy: Swift.String)
+  public static func logWebViewStartLoading(url: Swift.String)
+  public static func logHomepageCacheHitCheck(url: Swift.String, cacheHit: Swift.Bool)
+  public static func logPageRenderingAndComplete(url: Swift.String, loadTime: Foundation.TimeInterval)
+  public static func logBackgroundResourcePrefetch(resourceCount: Swift.Int)
+  public static func logUserStartInteraction()
+  public static func logH5DOMContentLoaded(relativeMs: Swift.Int)
+  public static func logH5HeadParsed(relativeMs: Swift.Int)
+  public static func logH5BodyParsed(relativeMs: Swift.Int)
+  public static func logH5LoadComplete(relativeMs: Swift.Int)
+  public static func logH5FirstPaint(relativeMs: Swift.Int)
+  public static func logH5FirstContentfulPaint(relativeMs: Swift.Int)
+  public static func logH5PerformanceTiming(timing: Swift.String)
+  public static func logError(step: Swift.String, error: Swift.String, details: Swift.String = "")
+  public static func logPerformance(metric: Swift.String, value: Swift.Double, unit: Swift.String)
+  @objc deinit
+}
+extension DPSDKKit.DPSDKCacheFlowLogger {
+  public static func logCacheHitRate(hitCount: Swift.Int, totalCount: Swift.Int)
+  public static func logCacheUsage(memoryUsage: Swift.Int, diskUsage: Swift.Int)
+}
+public enum DPSDKErrorCodeReporter {
+  public static func normalizedCode(for errorCode: Swift.String) -> Swift.String
+  public static func isCovered(_ errorCode: Swift.String) -> Swift.Bool
+  public static func officialMessage(for errorCode: Swift.String, fallback: Swift.String) -> Swift.String
+  public static func officialDisplayMessage(for errorCode: Swift.String, fallback: Swift.String) -> Swift.String
+  public static func report(errorCode: Swift.String, message: Swift.String, source: Swift.String? = nil, context: [Swift.String : Any]? = nil)
+}
+extension DPSDKKit.DPAppViewController : WebKit.WKNavigationDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didStartProvisionalNavigation navigation: WebKit.WKNavigation!)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didCommit navigation: WebKit.WKNavigation!)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFinish navigation: WebKit.WKNavigation!)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFailProvisionalNavigation navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webViewWebContentProcessDidTerminate(_ webView: WebKit.WKWebView)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
+}
+extension DPSDKKit.DPAppViewController : WebKit.WKUIDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, runJavaScriptAlertPanelWithMessage message: Swift.String, initiatedByFrame frame: WebKit.WKFrameInfo, completionHandler: @escaping () -> Swift.Void)
+}
+public enum ConfigSource : Swift.String, Swift.CaseIterable {
+  case global
+  case pathSpecific
+  case runtimeParams
+  case jsBridge
+  case cache
+  case defaultValue
+  case unknown
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [DPSDKKit.ConfigSource]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [DPSDKKit.ConfigSource] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ConfigRecord {
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class DPSDKConfigDebugWindow : UIKit.UIView {
+  @objc deinit
+}
+extension DPSDKKit.DPSDKConfigDebugWindow : UIKit.UITableViewDataSource, UIKit.UITableViewDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+}
+@_hasMissingDesignatedInitializers public class DPSDKConfigDebugLogger {
+  public static let shared: DPSDKKit.DPSDKConfigDebugLogger
+  public func setEnabled(_ enabled: Swift.Bool)
+  public func toggleEnabled()
+  public var debugWindow: DPSDKKit.DPSDKConfigDebugWindow?
+  public func showDebugWindow()
+  public func hideDebugWindow()
+  public func toggleDebugWindow()
+  public func showConfigToast()
+  public func markConfigSource(for key: Swift.String, source: DPSDKKit.ConfigSource)
+  public func clearConfigSources()
+  public func printFullConfig(appId: Swift.String, path: Swift.String?, config: [Swift.String : Any], pageName: Swift.String? = nil, reportPageName: Swift.String? = nil)
+  @objc deinit
+}
+extension DPSDKKit.DPAppViewController : DPSDKKit.DPAppCustomNavigationBarDelegate {
+  @_Concurrency.MainActor @preconcurrency public func customNavigationBarDidTapBack(_ navigationBar: DPSDKKit.DPAppCustomNavigationBar)
+  @_Concurrency.MainActor @preconcurrency public func customNavigationBarDidTapClose(_ navigationBar: DPSDKKit.DPAppCustomNavigationBar)
+  @_Concurrency.MainActor @preconcurrency public func customNavigationBarDidTapMore(_ navigationBar: DPSDKKit.DPAppCustomNavigationBar)
+}
+@_hasMissingDesignatedInitializers public class DPSDK {
+  public static let shared: DPSDKKit.DPSDK
+  public static func quickOpen(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], from viewController: UIKit.UIViewController, completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public static func getPerformanceReport() -> [Swift.String : Any]
+  public static let sdkVersion: Swift.String
+  public static let prefetchManager: DPSDKKit.DPSDKPrefetchManager
+  public static let resourcePrefetcher: DPSDKKit.DPSDKResourcePrefetcher
+  public static let sharedResources: DPSDKKit.DPSDKSharedResources
+  public static let advancedCacheManager: DPSDKKit.DPSDKAdvancedCacheManager
+  public static func configurePrefetch(config: DPSDKKit.DPSDKConfig)
+  public static let processPoolManager: DPSDKKit.DPAppProcessPoolManager
+  weak public var globalDelegate: (any DPSDKKit.DPSDKDelegate)?
+  public var globalJSBridgeSetup: ((DPSDKKit.DPAppJSBridge) -> Swift.Void)?
+  weak public var globalLifecycleListener: (any DPSDKKit.DPSDKLifecycleListener)?
+  weak public var defaultCustomDelegate: (any DPSDKKit.DPAppCustomDelegate)?
+  public var performanceMonitoringCallback: ((DPSDKKit.PerformanceMetrics) -> Swift.Void)?
+  public var loggingCallback: ((DPSDKKit.LogEntry) -> Swift.Void)?
+  public var config: DPSDKKit.DPSDKConfig? {
+    get
+  }
+  public func getCurrentAppId() -> Swift.String?
+  public func setAuthCode(token: Swift.String)
+  public var currentAuthCode: Swift.String? {
+    get
+  }
+  public func setCurrentAppId(_ appId: Swift.String?)
+  public init(config: DPSDKKit.DPSDKConfig)
+  public func initialize(clientId: Swift.String, cacheStrategy: DPSDKKit.CacheStrategy, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  public func initialize(with config: DPSDKKit.DPSDKConfig, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  public func updateLoggingEnabled(_ enabled: Swift.Bool)
+  public func enableAppActiveConfigReload()
+  public func ensureAppConfigLoaded(appId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+  public func setConfig(_ config: DPSDKKit.DPSDKConfig)
+  public func getConfig() -> DPSDKKit.DPSDKConfig?
+  public func getDPSDK(appId: Swift.String) -> DPSDKKit.DPApp
+  public func getSparkAppAsync(appId: Swift.String, completion: @escaping (DPSDKKit.DPApp?, (any Swift.Error)?) -> Swift.Void)
+  public func getExistingDPSDK(appId: Swift.String) -> DPSDKKit.DPApp?
+  public func hideSparkApps()
+  public func logout()
+  public func getSparkApps(completion: @escaping ([DPSDKKit.DPSDKData], Swift.String?) -> Swift.Void)
+  public func openURL(_ url: Swift.String, from viewController: UIKit.UIViewController, config: [Swift.String : Any]? = nil, customDelegate: (any DPSDKKit.DPAppCustomDelegate)? = nil, appId: Swift.String? = nil, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void = { _, _ in })
+  public func openWebview(url: Swift.String, from viewController: UIKit.UIViewController, config: [Swift.String : Any]? = nil, customDelegate: (any DPSDKKit.DPAppCustomDelegate)? = nil, appId: Swift.String? = nil, completion: @escaping ([Swift.String : Any]) -> Swift.Void = { _ in })
+  public func createViewController(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any]? = nil, completion: @escaping (UIKit.UIViewController?, (any Swift.Error)?) -> Swift.Void)
+  public func isInitialized() -> Swift.Bool
+  public func ensureInitialized(completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+  public static func initializeWithClientId(_ clientId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void = { _, _ in })
+  public static func getCurrentGlobalConfig() -> DPSDKKit.DPSDKGlobalConfigResponse?
+  public static func getCurrentClientId() -> Swift.String?
+  public func registerDeepLinkScheme(_ scheme: Swift.String)
+  public static func buildDeepLinkURL(scheme: Swift.String, appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any]? = nil) -> Foundation.URL?
+  public func reportPerformanceMetrics(_ metrics: DPSDKKit.PerformanceMetrics)
+  public func createPerformanceMetrics(for appId: Swift.String) -> DPSDKKit.PerformanceMetrics
+  public func logDebug(_ message: Swift.String, tag: Swift.String? = nil, appId: Swift.String? = nil, metadata: [Swift.String : Any]? = nil)
+  public func logInfo(_ message: Swift.String, tag: Swift.String? = nil, appId: Swift.String? = nil, metadata: [Swift.String : Any]? = nil)
+  public func logWarning(_ message: Swift.String, tag: Swift.String? = nil, appId: Swift.String? = nil, metadata: [Swift.String : Any]? = nil)
+  public func logError(_ message: Swift.String, tag: Swift.String? = nil, appId: Swift.String? = nil, metadata: [Swift.String : Any]? = nil)
+  public static func enablePerformanceMonitoring()
+  public static func performanceReport() -> Swift.String
+  public static func getPerformanceSummary() -> [Swift.String : Any]
+  @objc deinit
+}
+extension DPSDKKit.DPSDK {
+  public func getCachedSystemInfo() -> [Swift.String : Any]
+  public func refreshSystemInfo()
+}
+extension DPSDKKit.DPSDK {
+  public static func getTopViewController() -> UIKit.UIViewController?
+  public static func getKeyWindow() -> UIKit.UIWindow?
+}
+extension DPSDKKit.DPSDK {
+  public static func start(clientId: Swift.String = "default", completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public static func smartInitialize(clientId: Swift.String, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  public static func preOpen(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], keepWarmCount: Swift.Int = 1, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  public static func preheatDefaultRoutes(appId: Swift.String, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  public static func resetPreheatAndRebuild(completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  public static func preOpen(url: Swift.String, keepWarmCount: Swift.Int = 1, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  public static func open(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], from viewController: UIKit.UIViewController? = nil, completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public static func open(appId: Swift.String, path: Swift.String? = nil, params: Any, from viewController: UIKit.UIViewController? = nil, completion: ((Swift.Bool) -> Swift.Void)? = nil)
+  public static func createViewController(appId: Swift.String, path: Swift.String? = nil, params: [Swift.String : Any] = [:], navigationController: UIKit.UINavigationController? = nil, completion: @escaping (UIKit.UIViewController?, (any Swift.Error)?) -> Swift.Void)
+  public func constructURL(appId: Swift.String, path: Swift.String?, params: [Swift.String : Any]) -> Swift.String
+  public static func configurePage(_ pageIdentifier: Swift.String, config: [Swift.String : Any])
+  public static func setGlobalConfig(_ key: Swift.String, value: Any)
+  public static func refreshGlobalConfig(completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+  public static func refreshConfiguration(completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+  public static func convertArrayToParams(appId: Swift.String, path: Swift.String?, paramArray: [Swift.String]) -> [Swift.String : Any]
+  public static func ensureAppConfigReady(appId: Swift.String, completion: @escaping (Swift.Bool, (any Swift.Error)?) -> Swift.Void)
+  public static func getAvailableServices(completion: @escaping ([DPSDKKit.DPSDKServiceInfo], (any Swift.Error)?) -> Swift.Void)
+  @available(iOS 13.0, *)
+  public static var navigationBackManager: DPSDKKit.SparkAppNavigationBackManager {
+    get
+  }
+  @available(iOS 13.0, *)
+  public static func registerNavigationBackInterceptorAsync(handler: @escaping DPSDKKit.SparkAppNavigationBackAsyncHandler)
+  @available(iOS 13.0, *)
+  public static func clearGlobalAsyncNavigationBackInterceptor()
+  @available(iOS 13.0, *)
+  public static func hasGlobalAsyncNavigationBackInterceptor() -> Swift.Bool
+  public static func enableDevelopmentSecurityMode()
+  @available(iOS 13.0, *)
+  public static func hostGoBack(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  @available(iOS 13.0, *)
+  public static func close(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  @available(iOS 13.0, *)
+  public static func refresh(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  @available(iOS 13.0, *)
+  public static func getActiveSparkApps() -> [[Swift.String : Any]]
+}
+extension DPSDKKit.DPSDK {
+  public static func executeOnMainThread(_ block: @escaping () -> Swift.Void)
+  public static func executeOnBackgroundThread(_ block: @escaping () -> Swift.Void)
+  public static func executeAfterDelay(_ delay: Foundation.TimeInterval, block: @escaping () -> Swift.Void)
+}
+extension DPSDKKit.DPApp {
+  public func getCurrentURLSimplified() -> Swift.String?
+  @available(iOS 13.0, *)
+  public static func hostGoBack(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  @available(iOS 13.0, *)
+  public static func close(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  @available(iOS 13.0, *)
+  public static func refresh(appId: Swift.String? = nil, completion: ((Swift.Bool, (any Swift.Error)?) -> Swift.Void)? = nil)
+  @available(iOS 13.0, *)
+  public static func getActiveSparkApps() -> [[Swift.String : Any]]
+}
+public protocol DPSDKDelegate : AnyObject {
+  func didSelectCustomActionMenuItemEvent(_ dpApp: DPSDKKit.DPApp)
+  func didDPAppChangeUrlEvent(_ dpApp: DPSDKKit.DPApp, url: Foundation.URL)
+  func didReceiveCustomEvent(_ dpApp: DPSDKKit.DPApp, customEvent: DPSDKKit.CustomEvent)
+  func didReceivePaymentEvent(_ dpApp: DPSDKKit.DPApp, paymentData: DPSDKKit.PaymentData)
+  func onLaunchDPApp(_ dpApp: DPSDKKit.DPApp)
+  func onResumeDPApp(_ dpApp: DPSDKKit.DPApp)
+  func onPauseDPApp(_ dpApp: DPSDKKit.DPApp)
+  func onCloseDPApp(_ dpApp: DPSDKKit.DPApp)
+  func onErrorDPApp(_ dpApp: DPSDKKit.DPApp, message: Swift.String)
+  func onAuthDPApp(_ dpApp: DPSDKKit.DPApp)
+  func onUserInteraction(_ dpApp: DPSDKKit.DPApp)
+}
+public protocol DPAppWebviewDelegate : AnyObject {
+  func decidePolicyFor(_ dpApp: DPSDKKit.DPApp, navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
+}
+@_hasMissingDesignatedInitializers public class DPSDKUserAgentHelper {
+  public static func getDefaultUserAgentSuffix() -> Swift.String
+  public static func appendSuffix(to userAgent: Swift.String, suffix: Swift.String?) -> Swift.String
+  public static func configureUserAgent(for webView: WebKit.WKWebView, completion: (() -> Swift.Void)? = nil)
+  @objc deinit
+}
 extension DPSDKKit.DPSDKConfigManager.ConfigLoadingState : Swift.Equatable {}
 extension DPSDKKit.DPSDKConfigManager.ConfigLoadingState : Swift.Hashable {}
 extension DPSDKKit.DPSDKConfigManager.ConfigLoadingState : Swift.RawRepresentable {}
@@ -1764,6 +1727,22 @@ extension DPSDKKit.DPSDKConfigManager.Environment : Swift.Hashable {}
 extension DPSDKKit.DPSDKConfigManager.Environment : Swift.RawRepresentable {}
 extension DPSDKKit.DPSDKConfigManager.LanguageDirection : Swift.Equatable {}
 extension DPSDKKit.DPSDKConfigManager.LanguageDirection : Swift.Hashable {}
+extension DPSDKKit.DPSDKDataLayerCache.CacheType : Swift.Equatable {}
+extension DPSDKKit.DPSDKDataLayerCache.CacheType : Swift.Hashable {}
+extension DPSDKKit.DPSDKDataLayerCache.PrefetchPriority : Swift.Equatable {}
+extension DPSDKKit.DPSDKDataLayerCache.PrefetchPriority : Swift.Hashable {}
+extension DPSDKKit.SparkAppDeepLinkError : Swift.Equatable {}
+extension DPSDKKit.SparkAppDeepLinkError : Swift.Hashable {}
+@available(iOS 13.0, *)
+extension DPSDKKit.DPAppViewController.CreationSource : Swift.Equatable {}
+@available(iOS 13.0, *)
+extension DPSDKKit.DPAppViewController.CreationSource : Swift.Hashable {}
+@available(iOS 13.0, *)
+extension DPSDKKit.DPAppViewController.CreationSource : Swift.RawRepresentable {}
+extension DPSDKKit.ResourcePrefetchPriority : Swift.Hashable {}
+extension DPSDKKit.ResourcePrefetchPriority : Swift.RawRepresentable {}
+extension DPSDKKit.DPAppWebViewTemplate.TemplateType : Swift.Equatable {}
+extension DPSDKKit.DPAppWebViewTemplate.TemplateType : Swift.Hashable {}
 extension DPSDKKit.Theme : Swift.Equatable {}
 extension DPSDKKit.Theme : Swift.Hashable {}
 extension DPSDKKit.Theme : Swift.RawRepresentable {}
@@ -1776,3 +1755,24 @@ extension DPSDKKit.CacheStrategy : Swift.RawRepresentable {}
 extension DPSDKKit.LogLevel : Swift.Equatable {}
 extension DPSDKKit.LogLevel : Swift.Hashable {}
 extension DPSDKKit.LogLevel : Swift.RawRepresentable {}
+extension DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate : Swift.Equatable {}
+extension DPSDKKit.DPSDKSimpleConfigManager.ConfigTemplate : Swift.Hashable {}
+@available(iOS 13.0, *)
+extension DPSDKKit.DPSDKHTTPCacheManager.CachePolicy : Swift.Equatable {}
+@available(iOS 13.0, *)
+extension DPSDKKit.DPSDKHTTPCacheManager.CachePolicy : Swift.Hashable {}
+extension DPSDKKit.PrefetchPriority : Swift.Equatable {}
+extension DPSDKKit.PrefetchPriority : Swift.Hashable {}
+extension DPSDKKit.DPSDKPreconditionChecker.PreconditionError : Swift.Equatable {}
+extension DPSDKKit.DPSDKPreconditionChecker.PreconditionError : Swift.Hashable {}
+extension DPSDKKit.SparkAppBackType : Swift.Equatable {}
+extension DPSDKKit.SparkAppBackType : Swift.Hashable {}
+extension DPSDKKit.SparkAppBackType : Swift.RawRepresentable {}
+extension DPSDKKit.SparkAppNavigationActionType : Swift.Equatable {}
+extension DPSDKKit.SparkAppNavigationActionType : Swift.Hashable {}
+extension DPSDKKit.SparkAppNavigationActionType : Swift.RawRepresentable {}
+extension DPSDKKit.SparkAppNavigationBackAction : Swift.Equatable {}
+extension DPSDKKit.SparkAppNavigationBackAction : Swift.Hashable {}
+extension DPSDKKit.ConfigSource : Swift.Equatable {}
+extension DPSDKKit.ConfigSource : Swift.Hashable {}
+extension DPSDKKit.ConfigSource : Swift.RawRepresentable {}
