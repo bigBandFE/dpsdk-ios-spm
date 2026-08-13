@@ -103,3 +103,16 @@ DPSDK.preOpen(appId: "<app_id>", keepWarmCount: 1)
 - Auth errors: ensure the host app obtains a fresh non-empty auth code before opening DPApps.
 
 For setup support, open a request through [Contact Us](https://github.com/bigBandFE/dpsdk-contact/).
+
+## Installation via CocoaPods
+
+DPSDKKit is also available through [CocoaPods](https://cocoapods.org):
+
+```ruby
+pod 'DPSDKKit', :git => 'https://github.com/bigBandFE/dpsdk-ios-spm.git', :tag => '3.0.12'
+```
+
+Then run `pod install` and use the generated `.xcworkspace`.
+
+> Note: The podspec (`DPSDKKit.podspec`) points to the same `DPSDKKit.xcframework`
+> shipped in this repository, so behavior is identical to the Swift Package Manager install.
