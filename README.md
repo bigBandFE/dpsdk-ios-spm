@@ -2,13 +2,14 @@
 
 Dragonpass Hybrid SDK for iOS lets a host app launch and interact with Dragonpass DPApps.
 
-This repository distributes `DPSDKKit` as a Swift Package Manager binary package. It does not include SDK source code, credentials, or demo projects.
+This repository distributes `DPSDKKit` as a binary XCFramework, installable via Swift Package Manager or CocoaPods. It does not include SDK source code, credentials, or demo projects.
 
 ## Requirements
 
 - iOS 13 or later
 - Swift 5.6 or later
-- Xcode with Swift Package Manager support
+- CocoaPods 1.8.1 or later (CocoaPods installs)
+- Xcode with Swift Package Manager support (SPM installs)
 - A registered `clientId`
 - A DPApp `appId`
 - A host-app auth-code flow
@@ -17,7 +18,7 @@ To request or confirm your `clientId`, DPApp `appId`, and auth-code setup, conta
 
 ## Installation
 
-For manual installation with Swift Package Manager:
+### Swift Package Manager
 
 1. In Xcode, select `File -> Add Package Dependencies...`.
 2. Enter the repository URL:
@@ -26,6 +27,32 @@ For manual installation with Swift Package Manager:
    ```
 3. Set the dependency rule to `Branch -> main`.
 4. Add product `DPSDKKit` to your host app target.
+
+### CocoaPods
+
+Add the following to your `Podfile`:
+
+```ruby
+platform :ios, '13.0'
+
+target 'YourApp' do
+  use_frameworks!
+  pod 'DPSDKKit', :git => 'https://github.com/bigBandFE/dpsdk-ios-spm.git'
+end
+```
+
+Then run:
+
+```bash
+pod install
+```
+
+After that, always open the generated `.xcworkspace` and build.
+
+> Note: The podspec (`DPSDKKit.podspec`) points to the same `DPSDKKit.xcframework`
+> shipped in this repository, so behavior is identical to the Swift Package Manager install.
+
+The rest of the integration flow — importing the SDK, initialization, auth code, opening DPApps (UIKit / SwiftUI), and language configuration — is exactly the same as the Swift Package Manager path and is fully documented on the [official site](https://dpsdk.dragonpass.com/docs/host-app/dragonpass-hybrid-sdk/).
 
 You can also use the AI-assisted integration skill after reviewing the manual installation steps:
 
@@ -103,16 +130,3 @@ DPSDK.preOpen(appId: "<app_id>", keepWarmCount: 1)
 - Auth errors: ensure the host app obtains a fresh non-empty auth code before opening DPApps.
 
 For setup support, open a request through [Contact Us](https://github.com/bigBandFE/dpsdk-contact/).
-
-## Installation via CocoaPods
-
-DPSDKKit is also available through [CocoaPods](https://cocoapods.org):
-
-```ruby
-pod 'DPSDKKit', :git => 'https://github.com/bigBandFE/dpsdk-ios-spm.git', :tag => '3.0.12'
-```
-
-Then run `pod install` and use the generated `.xcworkspace`.
-
-> Note: The podspec (`DPSDKKit.podspec`) points to the same `DPSDKKit.xcframework`
-> shipped in this repository, so behavior is identical to the Swift Package Manager install.
