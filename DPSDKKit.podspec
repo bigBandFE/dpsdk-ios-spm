@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "DPSDKKit"
-  spec.version      = "3.0.12"
+  spec.version      = "3.0.13"
   spec.summary      = "Dragonpass Hybrid SDK for iOS — launch and interact with Dragonpass DPApps."
   spec.description  = <<-DESC
   Dragonpass Hybrid SDK for iOS lets a host app launch and interact with Dragonpass DPApps.
@@ -24,6 +24,8 @@ Pod::Spec.new do |spec|
   spec.source       = { :git => "https://github.com/bigBandFE/dpsdk-ios-spm.git", :tag => "#{spec.version}" }
 
   spec.vendored_frameworks = "DPSDKKit.xcframework"
+
+  spec.frameworks = "UIKit", "WebKit", "Foundation", "Security"
 
   spec.prepare_command = <<-CMD
     if [ ! -d "DPSDKKit.xcframework" ]; then
