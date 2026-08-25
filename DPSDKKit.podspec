@@ -29,10 +29,10 @@ Pod::Spec.new do |spec|
 
   spec.prepare_command = <<-CMD
     if [ ! -d "DPSDKKit.xcframework" ]; then
-      echo "错误: DPSDKKit.xcframework 不存在！"
+      echo "Error: DPSDKKit.xcframework not found!"
       exit 1
     fi
-    echo "✅ DPSDKKit.xcframework 验证通过"
+    echo "DPSDKKit.xcframework verification passed"
   CMD
 
   spec.pod_target_xcconfig = {
