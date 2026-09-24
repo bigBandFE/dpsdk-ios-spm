@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "DPSDKKit"
-  spec.version      = "3.0.17"
+  spec.version      = "3.0.18"
   spec.summary      = "Dragonpass Hybrid SDK for iOS — launch and interact with Dragonpass DPApps."
   spec.description  = <<-DESC
   Dragonpass Hybrid SDK for iOS lets a host app launch and interact with Dragonpass DPApps.
