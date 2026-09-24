@@ -67480,42 +67480,42 @@
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Components\/DPAppViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 5330,
+      "offset": 5417,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Components\/DPAppViewController.swift",
       "kind": "Dictionary",
-      "offset": 7106,
+      "offset": 7193,
       "length": 106,
       "value": "[(\"https:\/\/g-front-uat.dragonpass.com\/global-app\/#\/esim\/introduction\", \"sparkApp\/index.html\")]"
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Components\/DPAppViewController.swift",
       "kind": "StringLiteral",
-      "offset": 7438,
+      "offset": 7525,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Components\/DPAppViewController.swift",
       "kind": "StringLiteral",
-      "offset": 34737,
+      "offset": 34824,
       "length": 4994,
       "value": "\"(function() {\n    if (window.__sparkapp_perf_probe_installed) {\n        return;\n    }\n    window.__sparkapp_perf_probe_installed = true;\n    window.__sparkapp_start_time = Date.now();\n\n    const perfLogger = {\n        event: 'unknown',\n        relativeMs: null,\n        data: {}\n    } => {\n        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.__sparkapp_perf) {\n            window.webkit.messageHandlers.__sparkapp_perf.postMessage({\n                event: event,\n                relativeMs: relativeMs,\n                data: data\n            });\n        }\n    };\n\n    let headParsed = false;\n    let bodyParsed = false;\n\n    const observer = new MutationObserver((mutations) => {\n        mutations.forEach((mutation) => {\n            mutation.addedNodes.forEach((node) => {\n                if (node.nodeName === 'HEAD' && !headParsed) {\n                    headParsed = true;\n                    const relativeMs = Math.round(Date.now() - window.__sparkapp_start_time);\n                    perfLogger({\n                        event: 'HEAD_PARSED',\n                        relativeMs: relativeMs\n                    });\n                }\n                if (node.nodeName === 'BODY' && !bodyParsed) {\n                    bodyParsed = true;\n                    const relativeMs = Math.round(Date.now() - window.__sparkapp_start_time);\n                    perfLogger({\n                        event: 'BODY_PARSED',\n                        relativeMs: relativeMs\n                    });\n                }\n            });\n        });\n    });\n\n    if (document.readyState === 'loading') {\n        observer.observe(document, { childList: true, subtree: true });\n    }\n\n    document.addEventListener('DOMContentLoaded', () => {\n        const relativeMs = Math.round(Date.now() - window.__sparkapp_start_time);\n        perfLogger({\n            event: 'DOM_CONTENT_LOADED',\n            relativeMs: relativeMs\n        });\n        observer.disconnect();\n    });\n\n    window.addEventListener('load', () => {\n        const relativeMs = Math.round(Date.now() - window.__sparkapp_start_time);\n        perfLogger({\n            event: 'PAGE_LOAD_COMPLETE',\n            relativeMs: relativeMs\n        });\n\n        if (window.performance && window.performance.timing) {\n            const timing = window.performance.timing;\n            const perfData = {\n                domContentLoadedEventEnd: timing.domContentLoadedEventEnd - timing.navigationStart,\n                loadEventEnd: timing.loadEventEnd - timing.navigationStart,\n                domInteractive: timing.domInteractive - timing.navigationStart,\n                domComplete: timing.domComplete - timing.navigationStart\n            };\n            perfLogger({\n                event: 'NAVIGATION_TIMING',\n                relativeMs: relativeMs,\n                data: perfData\n            });\n        }\n    });\n\n    if ('PerformanceObserver' in window) {\n        const observer = new PerformanceObserver((list) => {\n            for (const entry of list.getEntries()) {\n                if (entry.entryType === 'paint' && entry.name === 'first-paint') {\n                    const relativeMs = Math.round(entry.startTime);\n                    perfLogger({\n                        event: 'FIRST_PAINT',\n                        relativeMs: relativeMs\n                    });\n                }\n                if (entry.entryType === 'paint' && entry.name === 'first-contentful-paint') {\n                    const relativeMs = Math.round(entry.startTime);\n                    perfLogger({\n                        event: 'FIRST_CONTENTFUL_PAINT',\n                        relativeMs: relativeMs\n                    });\n                }\n            }\n        });\n        observer.observe({ type: 'paint', buffered: true });\n    }\n})();\""
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Components\/DPAppViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 39808,
+      "offset": 39895,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Components\/DPAppViewController.swift",
       "kind": "StringLiteral",
-      "offset": 41802,
+      "offset": 41889,
       "length": 17,
       "value": "\"__sparkapp_perf\""
     },
