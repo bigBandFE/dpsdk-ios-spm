@@ -832,6 +832,17 @@ extension DPSDKKit.DPSDK {
   #endif
 }
 extension DPSDKKit.DPSDK {
+  public enum Environment {
+    case uat
+    case prod
+    public static func == (a: DPSDKKit.DPSDK.Environment, b: DPSDKKit.DPSDK.Environment) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func setEnvironment(_ environment: DPSDKKit.DPSDK.Environment)
+  public static func currentEnvironment() -> DPSDKKit.DPSDK.Environment
   #if compiler(>=5.3) && $NonescapableTypes
   public static func start(clientId: Swift.String = "default", completion: ((Swift.Bool) -> Swift.Void)? = nil)
   #endif
@@ -2184,6 +2195,8 @@ extension DPSDKKit.DPSDKConfigManager.Environment : Swift.Hashable {}
 extension DPSDKKit.DPSDKConfigManager.Environment : Swift.RawRepresentable {}
 extension DPSDKKit.DPSDKConfigManager.LanguageDirection : Swift.Equatable {}
 extension DPSDKKit.DPSDKConfigManager.LanguageDirection : Swift.Hashable {}
+extension DPSDKKit.DPSDK.Environment : Swift.Equatable {}
+extension DPSDKKit.DPSDK.Environment : Swift.Hashable {}
 extension DPSDKKit.Theme : Swift.Equatable {}
 extension DPSDKKit.Theme : Swift.Hashable {}
 extension DPSDKKit.Theme : Swift.RawRepresentable {}

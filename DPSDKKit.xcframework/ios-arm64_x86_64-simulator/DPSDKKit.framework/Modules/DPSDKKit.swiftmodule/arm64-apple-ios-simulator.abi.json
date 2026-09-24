@@ -24819,6 +24819,277 @@
             "funcSelfKind": "NonMutating"
           },
           {
+            "kind": "TypeDecl",
+            "name": "Environment",
+            "printedName": "Environment",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "uat",
+                "printedName": "uat",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(DPSDKKit.DPSDK.Environment.Type) -> DPSDKKit.DPSDK.Environment",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Environment",
+                        "printedName": "DPSDKKit.DPSDK.Environment",
+                        "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "DPSDKKit.DPSDK.Environment.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Environment",
+                            "printedName": "DPSDKKit.DPSDK.Environment",
+                            "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO3uatyA2EmF",
+                "mangledName": "$s8DPSDKKit5DPSDKC11EnvironmentO3uatyA2EmF",
+                "moduleName": "DPSDKKit"
+              },
+              {
+                "kind": "Var",
+                "name": "prod",
+                "printedName": "prod",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(DPSDKKit.DPSDK.Environment.Type) -> DPSDKKit.DPSDK.Environment",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Environment",
+                        "printedName": "DPSDKKit.DPSDK.Environment",
+                        "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "DPSDKKit.DPSDK.Environment.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Environment",
+                            "printedName": "DPSDKKit.DPSDK.Environment",
+                            "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO4prodyA2EmF",
+                "mangledName": "$s8DPSDKKit5DPSDKC11EnvironmentO4prodyA2EmF",
+                "moduleName": "DPSDKKit"
+              },
+              {
+                "kind": "Function",
+                "name": "==",
+                "printedName": "==(_:_:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Environment",
+                    "printedName": "DPSDKKit.DPSDK.Environment",
+                    "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Environment",
+                    "printedName": "DPSDKKit.DPSDK.Environment",
+                    "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO2eeoiySbAE_AEtFZ",
+                "mangledName": "$s8DPSDKKit5DPSDKC11EnvironmentO2eeoiySbAE_AEtFZ",
+                "moduleName": "DPSDKKit",
+                "static": true,
+                "implicit": true,
+                "funcSelfKind": "NonMutating"
+              },
+              {
+                "kind": "Var",
+                "name": "hashValue",
+                "printedName": "hashValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO9hashValueSivp",
+                "mangledName": "$s8DPSDKKit5DPSDKC11EnvironmentO9hashValueSivp",
+                "moduleName": "DPSDKKit",
+                "implicit": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO9hashValueSivg",
+                    "mangledName": "$s8DPSDKKit5DPSDKC11EnvironmentO9hashValueSivg",
+                    "moduleName": "DPSDKKit",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Function",
+                "name": "hash",
+                "printedName": "hash(into:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Hasher",
+                    "printedName": "Swift.Hasher",
+                    "paramValueOwnership": "InOut",
+                    "usr": "s:s6HasherV"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO4hash4intoys6HasherVz_tF",
+                "mangledName": "$s8DPSDKKit5DPSDKC11EnvironmentO4hash4intoys6HasherVz_tF",
+                "moduleName": "DPSDKKit",
+                "implicit": true,
+                "funcSelfKind": "NonMutating"
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO",
+            "mangledName": "$s8DPSDKKit5DPSDKC11EnvironmentO",
+            "moduleName": "DPSDKKit",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Copyable",
+                "printedName": "Copyable",
+                "usr": "s:s8CopyableP",
+                "mangledName": "$ss8CopyableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Escapable",
+                "printedName": "Escapable",
+                "usr": "s:s9EscapableP",
+                "mangledName": "$ss9EscapableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Hashable",
+                "printedName": "Hashable",
+                "usr": "s:SH",
+                "mangledName": "$sSH"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "setEnvironment",
+            "printedName": "setEnvironment(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Environment",
+                "printedName": "DPSDKKit.DPSDK.Environment",
+                "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8DPSDKKit5DPSDKC14setEnvironmentyyAC0D0OFZ",
+            "mangledName": "$s8DPSDKKit5DPSDKC14setEnvironmentyyAC0D0OFZ",
+            "moduleName": "DPSDKKit",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "currentEnvironment",
+            "printedName": "currentEnvironment()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Environment",
+                "printedName": "DPSDKKit.DPSDK.Environment",
+                "usr": "s:8DPSDKKit5DPSDKC11EnvironmentO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:8DPSDKKit5DPSDKC18currentEnvironmentAC0D0OyFZ",
+            "mangledName": "$s8DPSDKKit5DPSDKC18currentEnvironmentAC0D0OyFZ",
+            "moduleName": "DPSDKKit",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
             "kind": "Function",
             "name": "start",
             "printedName": "start(clientId:completion:)",
@@ -67734,49 +68005,49 @@
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Core\/DPSDK.swift",
       "kind": "StringLiteral",
-      "offset": 51716,
+      "offset": 52815,
       "length": 9,
       "value": "\"default\""
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Core\/DPSDK.swift",
       "kind": "Dictionary",
-      "offset": 68833,
+      "offset": 69932,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Core\/DPSDK.swift",
       "kind": "IntegerLiteral",
-      "offset": 68867,
+      "offset": 69966,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Core\/DPSDK.swift",
       "kind": "IntegerLiteral",
-      "offset": 74094,
+      "offset": 75193,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Core\/DPSDK.swift",
       "kind": "Dictionary",
-      "offset": 75311,
+      "offset": 76410,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Core\/DPSDK.swift",
       "kind": "Dictionary",
-      "offset": 81603,
+      "offset": 82702,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/dragonpass\/dpsdk-codex\/DPSDK\/DPSDK\/Sources\/Core\/DPSDK.swift",
       "kind": "StringLiteral",
-      "offset": 114952,
+      "offset": 116051,
       "length": 6,
       "value": "\"high\""
     },
